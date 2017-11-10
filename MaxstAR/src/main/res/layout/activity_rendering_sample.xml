@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/activity_main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<android.opengl.GLSurfaceView
+		android:id="@+id/gl_surface_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
+
+	<Button
+		android:id="@+id/start_camera"
+		android:layout_width="100dp"
+		android:layout_height="wrap_content"
+		android:text="Start Camera"/>
+
+	<Button
+		android:id="@+id/stop_camera"
+		android:layout_width="100dp"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/start_camera"
+		android:text="Stop Camera"/>
+
+	<Button
+		android:id="@+id/save_image"
+		android:layout_width="100dp"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/stop_camera"
+		android:text="Save Image"/>
+</RelativeLayout>

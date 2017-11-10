@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/activity_main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<android.opengl.GLSurfaceView
+		android:id="@+id/gl_surface_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
+
+	<Button
+		android:id="@+id/start_scan"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginTop="10dp"
+		android:textSize="20sp"
+		android:text="@string/start_scan"/>
+
+	<TextView
+		android:id="@+id/code_format"
+		android:background="#3f3f3f3f"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textSize="20sp"
+		android:textColor="@android:color/white"
+		android:layout_below="@id/start_scan"
+		android:layout_marginTop="10dp"
+		android:text="@string/code_format"/>
+
+	<TextView
+		android:id="@+id/code_value"
+		android:background="#3f3f3f3f"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textSize="20sp"
+		android:textColor="@android:color/white"
+		android:layout_below="@id/code_format"
+		android:layout_marginTop="10dp"
+		android:text="@string/code_value"/>
+</RelativeLayout>
