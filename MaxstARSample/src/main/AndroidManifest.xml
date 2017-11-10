@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.maxst.ar.sample.PermissionCheckActivity"
+            android:name=".PermissionCheckActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -23,43 +23,43 @@
         </activity>
 
         <activity
-            android:name="com.maxst.ar.sample.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
 
         <activity
-            android:name="com.maxst.ar.sample.SettingsActivity"
+            android:name=".SettingsActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
 
         <activity
-            android:name="com.maxst.ar.sample.imageTracker.ImageTrackerActivity"
+            android:name=".imageTracker.ImageTrackerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
 
         <activity
-            android:name="com.maxst.ar.sample.instantTracker.InstantTrackerActivity"
+            android:name=".instantTracker.InstantTrackerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
 
         <activity
-            android:name="com.maxst.ar.sample.slam.SlamActivity"
+            android:name=".slam.SlamActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
 
         <activity
-            android:name="com.maxst.ar.sample.slam.MapSelectActivity"
+            android:name=".slam.MapSelectActivity"
             android:theme="@android:style/Theme.Light"
             android:label="@string/map_select"/>
 
         <activity
-            android:name="com.maxst.ar.sample.slam.ObjectTrackerActivity"
+            android:name=".slam.ObjectTrackerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
 
         <activity
-            android:name="com.maxst.ar.sample.code.CodeScanActivity"
+            android:name=".code.CodeScanActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
     </application>
