@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="com.thej.stickyworld"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/app_icon"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".PermissionCheckActivity"
+            android:configChanges="orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
+
+        <activity
+            android:name=".imageTracker.ImageTrackerActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
+
+        <activity
+            android:name=".instantTracker.InstantTrackerActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
+
+        <activity
+            android:name=".slam.SlamActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
+
+        <activity
+            android:name=".slam.MapSelectActivity"
+            android:theme="@android:style/Theme.Light"
+            android:label="@string/map_select"/>
+
+        <activity
+            android:name=".slam.ObjectTrackerActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
+
+        <activity
+            android:name=".code.CodeScanActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
+    </application>
+
+</manifest>
