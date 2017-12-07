@@ -1,0 +1,4 @@
+#Thu Dec 07 17:47:31 KST 2017
+base.0=E\:\\Workspace\\MaxstARSDK_Android_Sample\\Samples\\MaxstARSample\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+renamed.0=classes.dex
+file.0=E\:\\Workspace\\MaxstARSDK_Android_Sample\\Samples\\MaxstARSample\\build\\intermediates\\transforms\\dexMerger\\debug\\0\\classes.dex
