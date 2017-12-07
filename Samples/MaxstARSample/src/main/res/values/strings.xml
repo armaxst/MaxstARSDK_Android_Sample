@@ -1,0 +1,46 @@
+<resources>
+	<string name="app_name">MaxstAR SDK</string>
+	<string name="maxstar_samples">MaxstAR Samples</string>
+	<string name="image_tracker">Image Tracker</string>
+	<string name="instant_tracker">Instant Tracker</string>
+	<string name="visual_slam">Visual SLAM</string>
+	<string name="object_tracker">Object Tracker</string>
+	<string name="code_scan">QR/BarCode Scanner</string>
+	<string name="camera_configuration">Camera Configuration</string>
+	<string name="see_through_hmd_rendering">See-through HMD Rendering</string>
+	<string name="camera_direction">Direction</string>
+	<string name="camera_direction_rear">Rear</string>
+	<string name="camera_direction_front">Front</string>
+	<string name="flash_light">Flash Light</string>
+	<string name="flash_on">On</string>
+	<string name="flash_off">Off</string>
+	<string name="camera_flip">Flip</string>
+	<string name="horizontal_flip">Horizontal</string>
+	<string name="vertical_flip">Vertical</string>
+	<string name="focus">Focus</string>
+	<string name="focus_continuous">Continuous</string>
+	<string name="focus_auto">Auto</string>
+	<string name="white_balance">White Balance</string>
+	<string name="white_balance_auto">Auto</string>
+	<string name="white_balance_lock">Lock</string>
+	<string name="app_key">o+2lX/zVNTA3Uiy19D2xHFZ+VB2k2uaeLtJCPt75RHE=</string>
+	<string name="camera_resolution">Camera resolution</string>
+	<string name="sd_resolution">640x480</string>
+	<string name="hd_resolution">1280x720</string>
+	<string name="start_slam">Start</string>
+	<string name="stop_slam">Stop</string>
+	<string name="save_map">Save map</string>
+	<string name="start_scan">Start Scan</string>
+	<string name="code_format">Code Format : </string>
+	<string name="code_value">Code Value : </string>
+	<string name="now_scanning">Scanning....</string>
+	<string name="extended_tracking">Extended Tracking</string>
+	<string name="normal_tracking">Normal Tracking</string>
+	<string name="multi_tracking">Multi Tracking</string>
+	<string name="no_map_files_exist">No map files exist. Please create map file via Visual SLAM menu</string>
+	<string name="start_tracking">Start tracking</string>
+	<string name="stop_tracking">Stop tracking</string>
+	<string name="camera_open_fail">Camera open fails. Please check camera permission is allowed</string>
+	<string name="map_select">Select map file</string>
+	<string name="resize_camera_view">Resize camera view</string>
+</resources>

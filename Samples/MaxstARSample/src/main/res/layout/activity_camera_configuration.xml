@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/activity_main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#ff3f3faf">
+
+	<android.opengl.GLSurfaceView
+		android:id="@+id/gl_surface_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" />
+
+	<RadioGroup
+		android:id="@+id/radio_group_1"
+		android:layout_width="100dp"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginTop="10dp"
+		android:background="#5fafafaf"
+		android:orientation="vertical">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:text="@string/camera_direction"
+			android:textColor="@android:color/white"
+			android:textSize="15sp" />
+
+		<RadioButton
+			android:id="@+id/rear_camera"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:checked="true"
+			android:text="@string/camera_direction_rear"
+			android:textSize="15sp" />
+
+		<RadioButton
+			android:id="@+id/front_camera"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/camera_direction_front"
+			android:textSize="15sp" />
+	</RadioGroup>
+
+	<RadioGroup
+		android:id="@+id/radio_group_2"
+		android:layout_width="100dp"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginTop="10dp"
+		android:background="#5fafafaf"
+		android:layout_toRightOf="@id/radio_group_1"
+		android:orientation="vertical">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:text="@string/flash_light"
+			android:textColor="@android:color/white"
+			android:textSize="15sp" />
+
+		<RadioButton
+			android:id="@+id/flash_off"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:checked="true"
+			android:text="@string/flash_off"
+			android:textSize="15sp" />
+
+		<RadioButton
+			android:id="@+id/flash_on"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/flash_on"
+			android:textSize="15sp" />
+	</RadioGroup>
+
+	<RadioGroup
+		android:id="@+id/radio_group_3"
+		android:layout_width="120dp"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginTop="10dp"
+		android:background="#5fafafaf"
+		android:layout_toRightOf="@id/radio_group_2"
+		android:orientation="vertical">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:text="@string/focus"
+			android:textColor="@android:color/white"
+			android:textSize="15sp" />
+
+		<RadioButton
+			android:id="@+id/focus_continuous"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:checked="true"
+			android:text="@string/focus_continuous"
+			android:textSize="15sp" />
+
+		<RadioButton
+			android:id="@+id/focus_auto"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/focus_auto"
+			android:textSize="15sp" />
+	</RadioGroup>
+
+	<LinearLayout
+		android:id="@+id/check_group"
+		android:layout_width="120dp"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:layout_marginTop="10dp"
+		android:background="#5fafafaf"
+		android:layout_below="@id/radio_group_1"
+		android:orientation="vertical">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:text="@string/camera_flip"
+			android:textColor="@android:color/white"
+			android:textSize="15sp" />
+
+		<CheckBox
+			android:id="@+id/horizontal_flip"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/horizontal_flip" />
+
+		<CheckBox
+			android:id="@+id/vertical_flip"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/vertical_flip" />
+	</LinearLayout>
+
+	<RadioGroup
+		android:id="@+id/radio_group_4"
+		android:layout_width="120dp"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:background="#5fafafaf"
+		android:layout_alignTop="@id/check_group"
+		android:layout_toRightOf="@id/check_group"
+		android:orientation="vertical">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="10dp"
+			android:text="@string/white_balance"
+			android:textColor="@android:color/white"
+			android:textSize="15sp" />
+
+		<RadioButton
+			android:id="@+id/white_balance_auto"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:checked="true"
+			android:text="@string/white_balance_auto"
+			android:textSize="15sp" />
+
+		<RadioButton
+			android:id="@+id/white_balance_lock"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/white_balance_lock"
+			android:textSize="15sp" />
+	</RadioGroup>
+
+	<CheckBox
+		android:id="@+id/resize_camera_view"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/resize_camera_view"
+		android:layout_below="@id/radio_group_4"
+		android:layout_marginLeft="10dp"
+		android:layout_marginTop="10dp"/>
+</RelativeLayout>
