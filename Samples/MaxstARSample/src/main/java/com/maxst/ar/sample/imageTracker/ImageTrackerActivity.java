@@ -7,7 +7,6 @@ package com.maxst.ar.sample.imageTracker;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -25,7 +24,6 @@ public class ImageTrackerActivity extends ARActivity implements View.OnClickList
 	private ImageTrackerRenderer imageTargetRenderer;
 	private GLSurfaceView glSurfaceView;
 	private int preferCameraResolution = 0;
-	private DisplayMetrics displayMetrics;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +47,6 @@ public class ImageTrackerActivity extends ARActivity implements View.OnClickList
 		TrackerManager.getInstance().loadTrackerData();
 
 		preferCameraResolution = getSharedPreferences(SampleUtil.PREF_NAME, Activity.MODE_PRIVATE).getInt(SampleUtil.PREF_KEY_CAM_RESOLUTION, 0);
-
-		displayMetrics = getResources().getDisplayMetrics();
 	}
 
 	@Override
@@ -132,6 +128,7 @@ public class ImageTrackerActivity extends ARActivity implements View.OnClickList
 			case MotionEvent.ACTION_DOWN: {
 				touchX = x;
 				touchY = y;
+				imageTargetRenderer.touchStart(x, y);
 				break;
 			}
 
@@ -139,7 +136,7 @@ public class ImageTrackerActivity extends ARActivity implements View.OnClickList
 				float dx = Math.abs(x - touchX);
 				float dy = Math.abs(y - touchY);
 				if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-					imageTargetRenderer.setTranslate((x - touchX) / displayMetrics.widthPixels, (y - touchY) / displayMetrics.widthPixels);
+					imageTargetRenderer.touchMove(x, y);
 					touchX = x;
 					touchY = y;
 				}
@@ -147,6 +144,7 @@ public class ImageTrackerActivity extends ARActivity implements View.OnClickList
 			}
 
 			case MotionEvent.ACTION_UP:
+				imageTargetRenderer.touchEnd(x, y);
 				break;
 		}
 
