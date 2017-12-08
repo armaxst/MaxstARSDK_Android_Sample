@@ -7,6 +7,7 @@ package com.maxst.ar.sample.arobject;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
+import com.maxst.ar.sample.util.BoundingBox;
 import com.maxst.ar.sample.util.ShaderUtil;
 import com.maxst.videoplayer.VideoPlayer;
 
@@ -60,7 +61,6 @@ public class VideoQuad extends BaseModel {
     private boolean videoSizeAcquired = false;
 
     public VideoQuad() {
-        super();
         ByteBuffer bb = ByteBuffer.allocateDirect(VERTEX_BUF.length * Float.SIZE / 8);
         bb.order(ByteOrder.nativeOrder());
         vertexBuffer = bb.asFloatBuffer();
