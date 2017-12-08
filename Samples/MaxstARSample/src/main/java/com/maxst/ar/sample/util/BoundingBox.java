@@ -1,8 +1,11 @@
+/*
+ * Copyright 2017 Maxst, Inc. All Rights Reserved.
+ */
+
 package com.maxst.ar.sample.util;
 
-/**
- * Created by Jack on 2017-12-08.
- */
+import android.graphics.Point;
+import android.opengl.Matrix;
 
 public class BoundingBox {
 
@@ -12,10 +15,13 @@ public class BoundingBox {
 	private float maxY;
 	private float minZ;
 	private float maxZ;
-	private float [] box;
+	private Vector3f [] points;
 
 	public BoundingBox() {
-		box = new float[24];
+		points = new Vector3f[8];
+		for (int i = 0; i < 8; i++) {
+			points[i] = new Vector3f();
+		}
 	}
 
 	public void setPoint(float x, float y, float z) {
@@ -44,39 +50,101 @@ public class BoundingBox {
 		}
 	}
 
-	public float [] getPoints() {
-		box[0] = minX;
-		box[1] = minY;
-		box[2] = minZ;
+	public boolean isObjectTouched(float touchX, float touchY, float [] mvpMatrix) {
+		Vector3f [] projectedPoints = new Vector3f[8];
+		for (int i = 0; i < 8; i++) {
+			projectedPoints[i] = new Vector3f();
+		}
 
-		box[3] = maxX;
-		box[4] = minY;
-		box[5] = minZ;
+		float [] inputVector = new float[4];
+		float [] outputVector = new float[4];
+		for (int i = 0; i < 8; i++) {
+			inputVector[0] = points[i].x;
+			inputVector[1] = points[i].y;
+			inputVector[2] = points[i].z;
+			inputVector[3] = 1;
 
-		box[6] = maxX;
-		box[7] = maxY;
-		box[8] = minZ;
+			Matrix.multiplyMV(outputVector, 0, mvpMatrix, 0, inputVector, 0);
+			projectedPoints[i].x = outputVector[0] / outputVector[3];
+			projectedPoints[i].y = outputVector[1] / outputVector[3];
+			projectedPoints[i].z = outputVector[2] / outputVector[3];
+		}
 
-		box[9] = minX;
-		box[10] = maxY;
-		box[11] = minZ;
+		float tempMinX = 0;
+		float tempMaxX = 0;
+		float tempMinY = 0;
+		float tempMaxY = 0;
+		float tempMinZ = 0;
+		float tempMaxZ = 0;
 
-		box[12] = minX;
-		box[13] = minY;
-		box[14] = maxZ;
+		for (Vector3f point : projectedPoints) {
+			if (point.x < tempMinX) {
+				tempMinX = point.x;
+			}
 
-		box[15] = maxX;
-		box[16] = minY;
-		box[17] = maxZ;
+			if (point.x > tempMaxX) {
+				tempMaxX = point.x;
+			}
 
-		box[18] = maxX;
-		box[19] = maxY;
-		box[20] = maxZ;
+			if (point.y < tempMinY) {
+				tempMinY = point.y;
+			}
 
-		box[21] = minX;
-		box[22] = maxY;
-		box[23] = maxZ;
+			if (point.y > tempMaxY) {
+				tempMaxY = point.y;
+			}
 
-		return box;
+			if (point.z < tempMinZ) {
+				tempMinZ = point.z;
+			}
+
+			if (point.z > tempMaxZ) {
+				tempMaxZ = point.z;
+			}
+		}
+
+		if (touchX < tempMinX || touchX > tempMaxX) {
+			return false;
+		}
+
+		if (touchY < tempMinY || touchY > tempMaxY) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public void createBox() {
+		points[0].x = minX;
+		points[0].y = minY;
+		points[0].z = minZ;
+
+		points[1].x = maxX;
+		points[1].y = minY;
+		points[1].z = minZ;
+
+		points[2].x = maxX;
+		points[2].y = maxY;
+		points[2].z = minZ;
+
+		points[3].x = minX;
+		points[3].y = maxY;
+		points[3].z = minZ;
+
+		points[4].x = minX;
+		points[4].y = minY;
+		points[4].z = maxZ;
+
+		points[5].x = maxX;
+		points[5].y = minY;
+		points[5].z = maxZ;
+
+		points[6].x = maxX;
+		points[6].y = maxY;
+		points[6].z = maxZ;
+
+		points[7].x = minX;
+		points[7].y = maxY;
+		points[7].z = maxZ;
 	}
 }
