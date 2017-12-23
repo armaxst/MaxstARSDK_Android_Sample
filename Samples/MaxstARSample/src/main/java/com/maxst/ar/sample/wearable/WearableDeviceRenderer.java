@@ -97,7 +97,7 @@ class WearableDeviceRenderer implements Renderer {
 				texturedCube.setProjectionMatrix(leftEyeProjectionMatrix);
 				texturedCube.setTransform(trackable.getPoseMatrix());
 				texturedCube.setTranslate(0, 0, -0.005f);
-				texturedCube.setScale(1.0f, 0.7f, 0.01f);
+				texturedCube.setScale(0.26f, 0.18f, 0.01f);
 				texturedCube.draw();
 			}
 
@@ -112,7 +112,7 @@ class WearableDeviceRenderer implements Renderer {
 				texturedCube.setProjectionMatrix(rightEyeProjectionMatrix);
 				texturedCube.setTransform(trackable.getPoseMatrix());
 				texturedCube.setTranslate(0, 0, -0.005f);
-				texturedCube.setScale(1.0f, 0.7f, 0.01f);
+				texturedCube.setScale(0.26f, 0.18f, 0.01f);
 				texturedCube.draw();
 			}
 		} else {
@@ -132,7 +132,7 @@ class WearableDeviceRenderer implements Renderer {
 				texturedCube.setProjectionMatrix(projectionMatrix);
 				texturedCube.setTransform(trackable.getPoseMatrix());
 				texturedCube.setTranslate(0, 0, -0.005f);
-				texturedCube.setScale(1.0f, 0.7f, 0.01f);
+				texturedCube.setScale(0.26f, 0.18f, 0.01f);
 				texturedCube.draw();
 			}
 
@@ -148,7 +148,7 @@ class WearableDeviceRenderer implements Renderer {
 				texturedCube.setProjectionMatrix(projectionMatrix);
 				texturedCube.setTransform(trackable.getPoseMatrix());
 				texturedCube.setTranslate(0, 0, -0.005f);
-				texturedCube.setScale(1.0f, 0.7f, 0.01f);
+				texturedCube.setScale(0.26f, 0.18f, 0.01f);
 				texturedCube.draw();
 			}
 		}

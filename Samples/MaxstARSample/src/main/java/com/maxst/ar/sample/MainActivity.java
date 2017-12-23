@@ -11,11 +11,11 @@ import android.view.View;
 
 import com.maxst.ar.sample.camera_config.CameraConfigureActivity;
 import com.maxst.ar.sample.code.CodeScanActivity;
-import com.maxst.ar.sample.wearable.WearableDeviceRenderingActivity;
 import com.maxst.ar.sample.imageTracker.ImageTrackerActivity;
 import com.maxst.ar.sample.instantTracker.InstantTrackerActivity;
 import com.maxst.ar.sample.slam.MapSelectActivity;
 import com.maxst.ar.sample.slam.SlamActivity;
+import com.maxst.ar.sample.wearable.WearableDeviceRenderingActivity;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
