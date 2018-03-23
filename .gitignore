@@ -4,3 +4,8 @@ Samples/.gradle/
 *.iml
 Samples/build/
 Samples/local.properties
+
+*.apk
+*.ap_
+*.dex
+*.class
