@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.maxst.ar.sample.ScreenRecorder.ScreenRecorderActivity;
 import com.maxst.ar.sample.camera_config.CameraConfigureActivity;
 import com.maxst.ar.sample.code.CodeScanActivity;
 import com.maxst.ar.sample.imageTracker.ImageTrackerActivity;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 			} else if (menu.equals(getString(R.string.camera_configuration))) {
 				startActivity(new Intent(MainActivity.this, CameraConfigureActivity.class));
 			} else if (menu.equals(getString(R.string.screen_recorder))) {
-
+				startActivity(new Intent(MainActivity.this, ScreenRecorderActivity.class));
 			}
 		}
 	};

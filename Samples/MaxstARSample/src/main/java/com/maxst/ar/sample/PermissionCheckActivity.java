@@ -65,7 +65,7 @@ public class PermissionCheckActivity extends AppCompatActivity {
 				if (TextUtils.isEmpty(message)) {
 					startMainActivity();
 				} else {
-					Toast.makeText(PermissionCheckActivity.this, String.format("Permission Denied:\n%s", message), Toast.LENGTH_SHORT).show();
+					Toast.makeText(PermissionCheckActivity.this, String.format("Permission Required:\n%s", message), Toast.LENGTH_SHORT).show();
 					finish();
 				}
 				break;

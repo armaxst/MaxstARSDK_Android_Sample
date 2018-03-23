@@ -22,57 +22,48 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize" />
-
         <activity
             android:name=".SettingsActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-
         <activity
             android:name=".imageTracker.ImageTrackerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-
         <activity
             android:name=".instantTracker.InstantTrackerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-
         <activity
             android:name=".slam.SlamActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-
         <activity
             android:name=".slam.MapSelectActivity"
             android:label="@string/map_select"
             android:theme="@android:style/Theme.Light" />
-
         <activity
             android:name=".slam.ObjectTrackerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-
         <activity
             android:name=".code.CodeScanActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-
         <activity
             android:name=".wearable.WearableDeviceRenderingActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-
         <activity
             android:name=".camera_config.CameraConfigureActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity android:name=".ScreenRecorder.ScreenRecorderActivity"></activity>
     </application>
 
 </manifest>
