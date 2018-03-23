@@ -27,13 +27,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            useProguard true
+            debuggable false
             ndk {
                 abiFilters "armeabi-v7a"
             }
         }
         debug {
             minifyEnabled false
+            useProguard false
             debuggable true
             ndk {
                 abiFilters "armeabi-v7a"
