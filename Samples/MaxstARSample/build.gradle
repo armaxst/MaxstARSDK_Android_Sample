@@ -3,54 +3,56 @@ apply plugin: 'com.android.application'
 def MAXSTAR_SDK_DIR = '../../Build'
 
 android {
-	compileSdkVersion 25
-	buildToolsVersion '26.0.2'
-	defaultConfig {
-		applicationId "com.maxst.ar.sample"
-		minSdkVersion 15
-		targetSdkVersion 25
-		versionCode 1
-		versionName "3.3.0"
-		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-	}
-	buildTypes {
-		release {
-			minifyEnabled false
-			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-		}
-	}
-	sourceSets.main {
-		jni.srcDirs = []
-		jniLibs.srcDir "$MAXSTAR_SDK_DIR"
-	}
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.maxst.ar.sample"
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "3.5.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets.main {
+        jni.srcDirs = []
+        jniLibs.srcDir "$MAXSTAR_SDK_DIR"
+    }
 
-	archivesBaseName = rootProject.projectDir.getName()
+    archivesBaseName = rootProject.projectDir.getName()
 
-	buildTypes {
-		release {
-			minifyEnabled false
-			ndk {
-				abiFilters "armeabi-v7a"
-			}
-		}
-		debug {
-			minifyEnabled false
-			debuggable true
-			ndk {
-				abiFilters "armeabi-v7a"
-			}
-		}
-	}
+    buildTypes {
+        release {
+            minifyEnabled true
+            useProguard true
+            debuggable false
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+        }
+        debug {
+            minifyEnabled false
+            useProguard false
+            debuggable true
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+        }
+    }
 }
 
 dependencies {
-	compile fileTree(dir: 'libs', include: ['*.jar'])
-	androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-		exclude group: 'com.android.support', module: 'support-annotations'
-	})
-	compile 'com.android.support:appcompat-v7:25.1.0'
-	testCompile 'junit:junit:4.12'
-	compile 'gun0912.ted:tedpermission:1.0.0'
-	compile files("$MAXSTAR_SDK_DIR/VideoPlayer.jar")
-	compile files("$MAXSTAR_SDK_DIR/MaxstAR.jar")
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:27.1.0'
+    testCompile 'junit:junit:4.12'
+    compile files("$MAXSTAR_SDK_DIR/VideoPlayer.jar")
+    compile files("$MAXSTAR_SDK_DIR/MaxstAR.jar")
 }
