@@ -19,11 +19,12 @@ import java.util.ArrayList;
 public class PermissionCheckActivity extends AppCompatActivity {
 
 	private static final int REQ_REQUEST_PERMISSION = 0;
+
 	private static String[] REQUIRED_PERMISSIONS = new String[]{
 			Manifest.permission.WRITE_EXTERNAL_STORAGE,
-			Manifest.permission.CAMERA
-	};
-
+			Manifest.permission.CAMERA,
+			Manifest.permission.RECORD_AUDIO
+	};// must be synchronized with the manifest
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

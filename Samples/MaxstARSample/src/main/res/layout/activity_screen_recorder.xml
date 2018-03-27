@@ -6,4 +6,15 @@
     android:layout_height="match_parent"
     tools:context="com.maxst.ar.sample.ScreenRecorder.ScreenRecorderActivity">
 
+
+    <ImageView
+        android:id="@+id/record"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/record_to_stop"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

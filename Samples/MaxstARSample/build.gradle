@@ -1,10 +1,14 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 def MAXSTAR_SDK_DIR = '../../Build'
 
 android {
     compileSdkVersion 27
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+
         applicationId "com.maxst.ar.sample"
         minSdkVersion 15
         targetSdkVersion 27
@@ -55,4 +59,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files("$MAXSTAR_SDK_DIR/VideoPlayer.jar")
     compile files("$MAXSTAR_SDK_DIR/MaxstAR.jar")
+    implementation 'com.maxst:screenrecorder:1.0.0@aar'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }

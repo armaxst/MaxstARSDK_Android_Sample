@@ -45,6 +45,7 @@
     <string name="resize_camera_view">Resize camera view</string>
     <string name="setting">Setting</string>
     <string name="screen_recorder">Screen Recorder</string>
+    <string name="record">record</string>
 
 
 </resources>
