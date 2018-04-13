@@ -19,7 +19,6 @@ import com.maxst.ar.sample.R;
 import com.maxst.ar.sample.util.SampleUtil;
 import java.io.IOException;
 
-
 public class ImageTrackerActivity extends ARActivity implements View.OnClickListener {
 
 	private ImageTrackerRenderer imageTargetRenderer;

@@ -7,7 +7,6 @@ package com.maxst.ar.sample.wearable;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.maxst.ar.CameraDevice;
 import com.maxst.ar.MaxstAR;
 import com.maxst.ar.ResultCode;
