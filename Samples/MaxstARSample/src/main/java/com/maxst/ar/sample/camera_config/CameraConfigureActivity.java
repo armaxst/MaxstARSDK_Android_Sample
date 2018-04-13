@@ -7,7 +7,6 @@ package com.maxst.ar.sample.camera_config;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +35,9 @@ public class CameraConfigureActivity extends ARActivity {
 	private int currentFlashViewId;
 	private int currentFocusViewId;
 	private boolean autoWhiteBalanceLocked = false;
+	private int preferCameraResolution = 0;
+
+	private int cameraNumber = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,18 +70,7 @@ public class CameraConfigureActivity extends ARActivity {
 		TrackerManager.getInstance().addTrackerData("ImageTarget/Lego.2dmap", true);
 		TrackerManager.getInstance().loadTrackerData();
 
-		int preferCameraResolution = getSharedPreferences(SampleUtil.PREF_NAME, Activity.MODE_PRIVATE).getInt(SampleUtil.PREF_KEY_CAM_RESOLUTION, 0);
-		switch (preferCameraResolution) {
-			case 0:
-				preferCameraWidth = 640;
-				preferCameraHeight = 480;
-				break;
-
-			case 1:
-				preferCameraWidth = 1280;
-				preferCameraHeight = 720;
-				break;
-		}
+		preferCameraResolution = getSharedPreferences(SampleUtil.PREF_NAME, Activity.MODE_PRIVATE).getInt(SampleUtil.PREF_KEY_CAM_RESOLUTION, 0);
 	}
 
 	@Override
@@ -87,13 +78,34 @@ public class CameraConfigureActivity extends ARActivity {
 		super.onResume();
 
 		glSurfaceView.onResume();
-		TrackerManager.getInstance().startTracker(TrackerManager.TRACKER_TYPE_IMAGE);
+		ResultCode resultCode = ResultCode.Success;
 
-		ResultCode resultCode = resultCode = CameraDevice.getInstance().start(0, preferCameraWidth, preferCameraHeight);
+		switch (preferCameraResolution) {
+			case 0:
+				preferCameraWidth = 640;
+				preferCameraHeight = 480;
+				resultCode = CameraDevice.getInstance().start(0, 640, 480);
+				break;
+
+			case 1:
+				preferCameraWidth = 1280;
+				preferCameraHeight = 720;
+				resultCode = CameraDevice.getInstance().start(0, 1280, 720);
+				break;
+
+			case 2:
+				preferCameraWidth = 1920;
+				preferCameraHeight = 1080;
+				resultCode = CameraDevice.getInstance().start(0, 1920, 1080);
+				break;
+		}
+
 		if (resultCode != ResultCode.Success) {
 			Toast.makeText(this, R.string.camera_open_fail, Toast.LENGTH_SHORT).show();
 			finish();
 		}
+
+		TrackerManager.getInstance().startTracker(TrackerManager.TRACKER_TYPE_IMAGE);
 
 		MaxstAR.onResume();
 	}
@@ -127,24 +139,16 @@ public class CameraConfigureActivity extends ARActivity {
 			switch (view.getId()) {
 				case R.id.front_camera:
 					CameraDevice.getInstance().stop();
-					new Handler().postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							CameraDevice.getInstance().start(1, preferCameraWidth, preferCameraHeight);
-						}
-					}, 100);
+					cameraNumber = 1;
+					CameraDevice.getInstance().start(cameraNumber, preferCameraWidth, preferCameraHeight);
 
 					CameraDevice.getInstance().flipVideo(CameraDevice.FlipDirection.VERTICAL, true);
 					break;
 
 				case R.id.rear_camera:
 					CameraDevice.getInstance().stop();
-					new Handler().postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							CameraDevice.getInstance().start(0, preferCameraWidth, preferCameraHeight);
-						}
-					}, 100);
+					cameraNumber = 0;
+					CameraDevice.getInstance().start(cameraNumber, preferCameraWidth, preferCameraHeight);
 
 					CameraDevice.getInstance().flipVideo(CameraDevice.FlipDirection.VERTICAL, false);
 					break;

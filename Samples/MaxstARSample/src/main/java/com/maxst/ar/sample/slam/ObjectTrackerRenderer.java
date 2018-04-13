@@ -12,16 +12,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
-import com.maxst.ar.BackgroundRenderer;
 import com.maxst.ar.CameraDevice;
 import com.maxst.ar.MaxstAR;
 import com.maxst.ar.MaxstARUtil;
 import com.maxst.ar.Trackable;
+import com.maxst.ar.TrackedImage;
 import com.maxst.ar.TrackerManager;
 import com.maxst.ar.TrackingResult;
 import com.maxst.ar.TrackingState;
+import com.maxst.ar.sample.arobject.BackgroundCameraQuad;
 import com.maxst.ar.sample.arobject.TexturedCube;
-import com.maxst.ar.sample.util.BackgroundRenderHelper;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -30,26 +30,17 @@ class ObjectTrackerRenderer implements Renderer {
 
 	private int surfaceWidth;
 	private int surfaceHeight;
-	private BackgroundRenderHelper backgroundRenderHelper;
 
 	private TexturedCube texturedCube;
 	private final Activity activity;
 
 	private boolean drawCube = false;
 	private boolean showTrackingLostPopup = false;
-	private int trackerType = TrackerManager.TRACKER_TYPE_OBJECT;
 
-	ObjectTrackerRenderer(Activity activity, boolean drawCube) {
-		this.activity = activity;
-		this.drawCube = drawCube;
-		backgroundRenderHelper = new BackgroundRenderHelper();
-	}
+	private BackgroundCameraQuad backgroundCameraQuad;
 
-	ObjectTrackerRenderer(Activity activity, int trackerType, boolean drawCube) {
+	ObjectTrackerRenderer(Activity activity) {
 		this.activity = activity;
-		this.drawCube = drawCube;
-		this.trackerType = trackerType;
-		backgroundRenderHelper = new BackgroundRenderHelper();
 	}
 
 	@Override
@@ -58,38 +49,25 @@ class ObjectTrackerRenderer implements Renderer {
 		GLES20.glViewport(0, 0, surfaceWidth, surfaceHeight);
 
 		TrackingState state = TrackerManager.getInstance().updateTrackingState();
-		TrackingResult trackingResult = TrackerManager.getInstance().getTrackingResult(state);
+		TrackingResult trackingResult = state.getTrackingResult();
 
-		backgroundRenderHelper.drawBackground();
+		TrackedImage image = state.getImage();
+		float[] cameraProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
+		backgroundCameraQuad.setProjectionMatrix(cameraProjectionMatrix);
+		backgroundCameraQuad.draw(image);
 
 		float[] projectionMatrix = CameraDevice.getInstance().getProjectionMatrix();
 
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
 		if (trackingResult.getCount() > 0) {
-			if (drawCube) {
-				Trackable trackable = trackingResult.getTrackable(0);
-				texturedCube.setTransform(trackable.getPoseMatrix());
-				texturedCube.setTranslate(0, 0, -0.0005f);
-				texturedCube.setScale(0.4f, 0.4f, 0.001f);
-				texturedCube.setProjectionMatrix(projectionMatrix);
-				texturedCube.draw();
-			}
+			Trackable trackable = trackingResult.getTrackable(0);
 
-			if (trackerType == TrackerManager.TRACKER_TYPE_SLAM) {
-				showTrackingLostPopup = true;
-			}
-		} else {
-			if (showTrackingLostPopup) {
-				new Handler(Looper.getMainLooper()).post(new Runnable() {
-					@Override
-					public void run() {
-						Toast.makeText(activity, "Lost Tracking. Please restart", Toast.LENGTH_SHORT).show();
-					}
-				});
-
-				showTrackingLostPopup = false;
-			}
+			texturedCube.setTransform(trackable.getPoseMatrix());
+			texturedCube.setTranslate(0, 0, -0.05f);
+			texturedCube.setScale(0.3f, 0.3f, 0.1f);
+			texturedCube.setProjectionMatrix(projectionMatrix);
+			texturedCube.draw();
 		}
 	}
 
@@ -105,19 +83,10 @@ class ObjectTrackerRenderer implements Renderer {
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-		backgroundRenderHelper.init();
-		if (trackerType == TrackerManager.TRACKER_TYPE_SLAM) {
-			backgroundRenderHelper.setRenderingOption(
-					BackgroundRenderer.RenderingOption.FEATURE_RENDERER,
-					BackgroundRenderer.RenderingOption.PROGRESS_RENDERER,
-					BackgroundRenderer.RenderingOption.SURFACE_MESH_RENDERER,
-					BackgroundRenderer.RenderingOption.AXIS_RENDERER);
-		}
+		backgroundCameraQuad = new BackgroundCameraQuad();
 
 		texturedCube = new TexturedCube();
 		Bitmap bitmap = MaxstARUtil.getBitmapFromAsset("MaxstAR_Cube.png", activity.getAssets());
 		texturedCube.setTextureBitmap(bitmap);
-
-		MaxstAR.onSurfaceCreated();
 	}
 }

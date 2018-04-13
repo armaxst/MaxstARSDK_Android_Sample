@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
 
-import com.maxst.ar.BackgroundTexture;
 import com.maxst.ar.CameraDevice;
 import com.maxst.ar.MaxstAR;
 import com.maxst.ar.MaxstARUtil;
@@ -18,7 +17,6 @@ import com.maxst.ar.TrackingResult;
 import com.maxst.ar.TrackingState;
 import com.maxst.ar.WearableCalibration;
 import com.maxst.ar.sample.arobject.TexturedCube;
-import com.maxst.ar.sample.util.BackgroundRenderHelper;
 import com.maxst.ar.wearable.WearableDeviceController;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -34,7 +32,6 @@ class WearableDeviceRenderer implements Renderer {
 	private int surfaceHeight;
 
 	private final Activity activity;
-	private BackgroundRenderHelper backgroundRenderHelper;
 	private float[] leftEyeProjectionMatrix;
 	private float[] rightEyeProjectionMatrix;
 	private float[] rightEyeViewport;
@@ -50,15 +47,10 @@ class WearableDeviceRenderer implements Renderer {
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-		backgroundRenderHelper = new BackgroundRenderHelper();
-		backgroundRenderHelper.init();
-
 		Bitmap bitmap = MaxstARUtil.getBitmapFromAsset("MaxstAR_Cube.png", activity.getAssets());
 
 		texturedCube = new TexturedCube();
 		texturedCube.setTextureBitmap(bitmap);
-
-		MaxstAR.onSurfaceCreated();
 	}
 
 	@Override
@@ -89,7 +81,7 @@ class WearableDeviceRenderer implements Renderer {
 			GLES20.glViewport((int) leftEyeViewport[0], (int) leftEyeViewport[1], (int) leftEyeViewport[2], (int) leftEyeViewport[3]);
 			GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
-			TrackingResult trackingResult = TrackerManager.getInstance().getTrackingResult(state);
+			TrackingResult trackingResult = state.getTrackingResult();
 
 			for (int i = 0; i < trackingResult.getCount(); i++) {
 				Trackable trackable = trackingResult.getTrackable(i);
@@ -97,14 +89,14 @@ class WearableDeviceRenderer implements Renderer {
 				texturedCube.setProjectionMatrix(leftEyeProjectionMatrix);
 				texturedCube.setTransform(trackable.getPoseMatrix());
 				texturedCube.setTranslate(0, 0, -0.005f);
-				texturedCube.setScale(1.0f, 0.7f, 0.01f);
+				texturedCube.setScale(0.26f, 0.18f, 0.01f);
 				texturedCube.draw();
 			}
 
 			GLES20.glViewport((int) rightEyeViewport[0], (int) rightEyeViewport[1], (int) rightEyeViewport[2], (int) rightEyeViewport[3]);
 			GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
-			trackingResult = TrackerManager.getInstance().getTrackingResult(state);
+			trackingResult = state.getTrackingResult();
 
 			for (int i = 0; i < trackingResult.getCount(); i++) {
 				Trackable trackable = trackingResult.getTrackable(i);
@@ -112,18 +104,15 @@ class WearableDeviceRenderer implements Renderer {
 				texturedCube.setProjectionMatrix(rightEyeProjectionMatrix);
 				texturedCube.setTransform(trackable.getPoseMatrix());
 				texturedCube.setTranslate(0, 0, -0.005f);
-				texturedCube.setScale(1.0f, 0.7f, 0.01f);
+				texturedCube.setScale(0.26f, 0.18f, 0.01f);
 				texturedCube.draw();
 			}
 		} else {
-			TrackingResult trackingResult = TrackerManager.getInstance().getTrackingResult(state);
-			BackgroundTexture backgroundTexture = backgroundRenderHelper.drawBackgroundToTexture();
+			TrackingResult trackingResult = state.getTrackingResult();
 			float[] projectionMatrix = CameraDevice.getInstance().getProjectionMatrix();
 
-			GLES20.glViewport((int) leftEyeViewport[0], (int) leftEyeViewport[1], (int) leftEyeViewport[2], (int) leftEyeViewport[3]);
-			if (backgroundTexture != null) {
-				backgroundRenderHelper.drawBackground(backgroundTexture);
-			}
+			GLES20.glViewport(0, 0, surfaceWidth / 2, surfaceHeight);
+
 			GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
 			for (int i = 0; i < trackingResult.getCount(); i++) {
@@ -132,14 +121,12 @@ class WearableDeviceRenderer implements Renderer {
 				texturedCube.setProjectionMatrix(projectionMatrix);
 				texturedCube.setTransform(trackable.getPoseMatrix());
 				texturedCube.setTranslate(0, 0, -0.005f);
-				texturedCube.setScale(1.0f, 0.7f, 0.01f);
+				texturedCube.setScale(0.26f, 0.18f, 0.01f);
 				texturedCube.draw();
 			}
 
-			GLES20.glViewport((int) rightEyeViewport[0], (int) rightEyeViewport[1], (int) rightEyeViewport[2], (int) rightEyeViewport[3]);
-			if (backgroundTexture != null) {
-				backgroundRenderHelper.drawBackground(backgroundTexture);
-			}
+			GLES20.glViewport(surfaceWidth / 2, 0, surfaceWidth / 2, surfaceHeight);
+
 			GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
 			for (int i = 0; i < trackingResult.getCount(); i++) {
@@ -148,7 +135,7 @@ class WearableDeviceRenderer implements Renderer {
 				texturedCube.setProjectionMatrix(projectionMatrix);
 				texturedCube.setTransform(trackable.getPoseMatrix());
 				texturedCube.setTranslate(0, 0, -0.005f);
-				texturedCube.setScale(1.0f, 0.7f, 0.01f);
+				texturedCube.setScale(0.26f, 0.18f, 0.01f);
 				texturedCube.draw();
 			}
 		}

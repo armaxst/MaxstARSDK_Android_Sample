@@ -65,12 +65,7 @@ public class ChromaKeyVideoQuad extends BaseModel {
     private boolean videoSizeAcquired = false;
 
     public ChromaKeyVideoQuad() {
-        for (int i = 0; i < VERTEX_BUF.length / 3; i++) {
-            boundingBox.setPoint(VERTEX_BUF[i * 3], VERTEX_BUF[i * 3 + 1], VERTEX_BUF[i * 3 + 2]);
-        }
-
-        boundingBox.createBox();
-
+        super();
         ByteBuffer bb = ByteBuffer.allocateDirect(VERTEX_BUF.length * Float.SIZE / 8);
         bb.order(ByteOrder.nativeOrder());
         vertexBuffer = bb.asFloatBuffer();

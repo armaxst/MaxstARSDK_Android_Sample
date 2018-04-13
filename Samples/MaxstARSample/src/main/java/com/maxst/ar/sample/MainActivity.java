@@ -4,91 +4,82 @@
 
 package com.maxst.ar.sample;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.maxst.ar.sample.ScreenRecorder.ScreenRecorderActivity;
 import com.maxst.ar.sample.camera_config.CameraConfigureActivity;
 import com.maxst.ar.sample.code.CodeScanActivity;
 import com.maxst.ar.sample.imageTracker.ImageTrackerActivity;
 import com.maxst.ar.sample.instantTracker.InstantTrackerActivity;
+import com.maxst.ar.sample.markerTracker.MarkerTrackerActivity;
 import com.maxst.ar.sample.slam.MapSelectActivity;
 import com.maxst.ar.sample.slam.SlamActivity;
 import com.maxst.ar.sample.wearable.WearableDeviceRenderingActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity implements View.OnClickListener {
 
-	private static final int MENU_GROUP_DEFAULT = 0;
-	private static final int MENU_SETTING = 0;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-	private ListView listView;
-	private ArrayAdapter<String> adapter;
-	private static final String[] MENUS = App.getContext().getResources().getStringArray(R.array.main_menus);
+        findViewById(R.id.image_target).setOnClickListener(this);
+        findViewById(R.id.instant_image_target).setOnClickListener(this);
+        findViewById(R.id.marker_target).setOnClickListener(this);
+        findViewById(R.id.object_mapping).setOnClickListener(this);
+        findViewById(R.id.object_target).setOnClickListener(this);
+        findViewById(R.id.code_target).setOnClickListener(this);
+        findViewById(R.id.see_through_hmd_rendering).setOnClickListener(this);
+        findViewById(R.id.camera_configuration).setOnClickListener(this);
+        findViewById(R.id.screen_record).setOnClickListener(this);
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		listView = findViewById(R.id.list_view);
+        findViewById(R.id.settings).setOnClickListener(this);
+    }
 
-		adapter = new ArrayAdapter<>(
-				this,
-				R.layout.view_main_menu,
-				R.id.list_item,
-				MENUS
-		);
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.image_target:
+                startActivity(new Intent(MainActivity.this, ImageTrackerActivity.class));
+                break;
 
-		listView.setAdapter(adapter);
-		listView.setOnItemClickListener(onItemClickListener);
+            case R.id.marker_target:
+                startActivity(new Intent(MainActivity.this, MarkerTrackerActivity.class));
+                break;
 
-	}
+            case R.id.instant_image_target:
+                startActivity(new Intent(MainActivity.this, InstantTrackerActivity.class));
+                break;
 
-	private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			String menu = adapter.getItem(position);
-			if (menu.equals(getString(R.string.image_tracker))) {
-				startActivity(new Intent(MainActivity.this, ImageTrackerActivity.class));
-			} else if (menu.equals(getString(R.string.instant_tracker))) {
-				startActivity(new Intent(MainActivity.this, InstantTrackerActivity.class));
-			} else if (menu.equals(getString(R.string.visual_slam))) {
-				startActivity(new Intent(MainActivity.this, SlamActivity.class));
-			} else if (menu.equals(getString(R.string.object_tracker))) {
-				startActivity(new Intent(MainActivity.this, MapSelectActivity.class));
-			} else if (menu.equals(getString(R.string.code_scan))) {
-				startActivity(new Intent(MainActivity.this, CodeScanActivity.class));
-			} else if (menu.equals(getString(R.string.see_through_hmd_rendering))) {
-				startActivity(new Intent(MainActivity.this, WearableDeviceRenderingActivity.class));
-			} else if (menu.equals(getString(R.string.camera_configuration))) {
-				startActivity(new Intent(MainActivity.this, CameraConfigureActivity.class));
-			} else if (menu.equals(getString(R.string.screen_recorder))) {
-				startActivity(new Intent(MainActivity.this, ScreenRecorderActivity.class));
-			}
-		}
-	};
+            case R.id.object_mapping:
+                startActivity(new Intent(MainActivity.this, SlamActivity.class));
+                break;
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuItem setting = menu.add(MENU_GROUP_DEFAULT, MENU_SETTING, MENU_SETTING, R.string.setting);
-		setting.setIcon(R.mipmap.settings);
-		setting.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		return super.onCreateOptionsMenu(menu);
-	}
+            case R.id.object_target:
+                startActivity(new Intent(MainActivity.this, MapSelectActivity.class));
+                break;
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case MENU_SETTING:
-				startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-				break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+            case R.id.code_target:
+                startActivity(new Intent(MainActivity.this, CodeScanActivity.class));
+                break;
+
+            case R.id.see_through_hmd_rendering:
+                startActivity(new Intent(MainActivity.this, WearableDeviceRenderingActivity.class));
+                break;
+
+            case R.id.camera_configuration:
+                startActivity(new Intent(MainActivity.this, CameraConfigureActivity.class));
+                break;
+
+            case R.id.settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+
+            case R.id.screen_record:
+                startActivity(new Intent(MainActivity.this, ScreenRecorderActivity.class));
+        }
+
+    }
 }

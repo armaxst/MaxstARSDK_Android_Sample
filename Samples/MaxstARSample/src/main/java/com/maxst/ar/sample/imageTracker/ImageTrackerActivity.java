@@ -7,7 +7,6 @@ package com.maxst.ar.sample.imageTracker;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,7 +18,7 @@ import com.maxst.ar.sample.ARActivity;
 import com.maxst.ar.sample.R;
 import com.maxst.ar.sample.util.SampleUtil;
 
-public class ImageTrackerActivity extends ARActivity implements View.OnClickListener, View.OnTouchListener {
+public class ImageTrackerActivity extends ARActivity implements View.OnClickListener {
 
 	private ImageTrackerRenderer imageTargetRenderer;
 	private GLSurfaceView glSurfaceView;
@@ -39,7 +38,6 @@ public class ImageTrackerActivity extends ARActivity implements View.OnClickList
 		glSurfaceView = (GLSurfaceView) findViewById(R.id.gl_surface_view);
 		glSurfaceView.setEGLContextClientVersion(2);
 		glSurfaceView.setRenderer(imageTargetRenderer);
-		glSurfaceView.setOnTouchListener(this);
 
 		TrackerManager.getInstance().addTrackerData("ImageTarget/Blocks.2dmap", true);
 		TrackerManager.getInstance().addTrackerData("ImageTarget/Glacier.2dmap", true);
@@ -64,6 +62,10 @@ public class ImageTrackerActivity extends ARActivity implements View.OnClickList
 
 			case 1:
 				resultCode = CameraDevice.getInstance().start(0, 1280, 720);
+				break;
+
+			case 2:
+				resultCode = CameraDevice.getInstance().start(0, 1920, 1080);
 				break;
 		}
 
@@ -113,41 +115,5 @@ public class ImageTrackerActivity extends ARActivity implements View.OnClickList
 				TrackerManager.getInstance().setTrackingOption(TrackerManager.TrackingOption.MULTI_TRACKING);
 				break;
 		}
-	}
-
-	private static final float TOUCH_TOLERANCE = 5;
-	private float touchX;
-	private float touchY;
-
-	@Override
-	public boolean onTouch(View v, final MotionEvent event) {
-		float x = event.getX();
-		float y = event.getY();
-
-		switch (event.getAction()) {
-			case MotionEvent.ACTION_DOWN: {
-				touchX = x;
-				touchY = y;
-				imageTargetRenderer.touchStart(x, y);
-				break;
-			}
-
-			case MotionEvent.ACTION_MOVE: {
-				float dx = Math.abs(x - touchX);
-				float dy = Math.abs(y - touchY);
-				if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-					imageTargetRenderer.touchMove(x, y);
-					touchX = x;
-					touchY = y;
-				}
-				break;
-			}
-
-			case MotionEvent.ACTION_UP:
-				imageTargetRenderer.touchEnd(x, y);
-				break;
-		}
-
-		return true;
 	}
 }

@@ -66,6 +66,7 @@ public class ColoredCube extends BaseModel {
 	};
 
 	public ColoredCube() {
+		super();
 		ByteBuffer bb = ByteBuffer.allocateDirect(VERTEX_BUF.length * Float.SIZE / 8);
 		bb.order(ByteOrder.nativeOrder());
 		vertexBuffer = bb.asFloatBuffer();

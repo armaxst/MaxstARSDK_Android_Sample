@@ -6,12 +6,14 @@ package com.maxst.ar.sample.wearable;
 
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.maxst.ar.CameraDevice;
@@ -47,20 +49,32 @@ public class WearableDeviceRenderingActivity extends ARActivity implements View.
 		glSurfaceView = (GLSurfaceView) findViewById(R.id.gl_surface_view);
 		glSurfaceView.setEGLContextClientVersion(2);
 		glSurfaceView.setRenderer(imageTargetRenderer);
-		glSurfaceView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
+//		glSurfaceView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
 
 		TrackerManager.getInstance().addTrackerData("ImageTarget/Blocks.2dmap", true);
 		TrackerManager.getInstance().addTrackerData("ImageTarget/Glacier.2dmap", true);
 		TrackerManager.getInstance().addTrackerData("ImageTarget/Lego.2dmap", true);
-		TrackerManager.getInstance().addTrackerData("ImageTarget/Type.2dmap", true);
 		TrackerManager.getInstance().loadTrackerData();
 
 		preferCameraResolution = getSharedPreferences(SampleUtil.PREF_NAME, Activity.MODE_PRIVATE).getInt(SampleUtil.PREF_KEY_CAM_RESOLUTION, 0);
 
 		if (!wearableDeviceController.isSupportedWearableDevice()) {
-			Toast.makeText(this, "This android device is not in our supported list!", Toast.LENGTH_LONG).show();
+			DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+			int offsetX = displayMetrics.widthPixels / 2;
+			int offsetY = 0;
+
+			Toast toast = Toast.makeText(this, "This android device is not in our supported list!", Toast.LENGTH_LONG);
+			ViewGroup group = (ViewGroup) toast.getView();
+			TextView messageTextView = (TextView) group.getChildAt(0);
+			messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+
+			toast.setGravity(Gravity.CENTER, offsetX, offsetY);
+			toast.show();
+//			Toast.makeText(this, "This android device is not in our supported list!", Toast.LENGTH_LONG).show();
+			finish();
 		}
 
+		WearableCalibration.getInstance().init(wearableDeviceController.getModelName());
 		boolean readResult = WearableCalibration.getInstance().readActiveProfile(MaxstAR.getApplicationContext(), wearableDeviceController.getModelName());
 		Log.d(TAG, "Read Active Profile result : " + readResult);
 	}
@@ -69,6 +83,7 @@ public class WearableDeviceRenderingActivity extends ARActivity implements View.
 	protected void onResume() {
 		super.onResume();
 
+		wearableDeviceController.setStereoMode(true);
 		glSurfaceView.onResume();
 		TrackerManager.getInstance().startTracker(TrackerManager.TRACKER_TYPE_IMAGE);
 
@@ -80,6 +95,14 @@ public class WearableDeviceRenderingActivity extends ARActivity implements View.
 
 			case 1:
 				resultCode = CameraDevice.getInstance().start(0, 1280, 720);
+				break;
+
+			case 2:
+				resultCode = CameraDevice.getInstance().start(0, 1920, 1080);
+				break;
+
+			case 3:
+				resultCode = CameraDevice.getInstance().start(0, 2560, 1440);
 				break;
 		}
 
@@ -126,13 +149,13 @@ public class WearableDeviceRenderingActivity extends ARActivity implements View.
 		}
 	}
 
-	ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-
-		@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-		@Override
-		public void onGlobalLayout() {
-			wearableDeviceController.setStereoMode(true);
-			glSurfaceView.getViewTreeObserver().removeOnGlobalLayoutListener(globalLayoutListener);
-		}
-	};
+//	ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+//
+//		@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+//		@Override
+//		public void onGlobalLayout() {
+//			wearableDeviceController.setStereoMode(true);
+//			glSurfaceView.getViewTreeObserver().removeOnGlobalLayoutListener(globalLayoutListener);
+//		}
+//	};
 }

@@ -38,6 +38,10 @@
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
         <activity
+            android:name=".markerTracker.MarkerTrackerActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity
             android:name=".instantTracker.InstantTrackerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />

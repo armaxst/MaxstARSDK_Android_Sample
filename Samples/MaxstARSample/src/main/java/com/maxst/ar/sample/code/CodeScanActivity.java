@@ -18,6 +18,7 @@ import com.maxst.ar.CameraDevice;
 import com.maxst.ar.MaxstAR;
 import com.maxst.ar.ResultCode;
 import com.maxst.ar.TrackerManager;
+import com.maxst.ar.TrackingState;
 import com.maxst.ar.sample.ARActivity;
 import com.maxst.ar.sample.R;
 import com.maxst.ar.sample.util.SampleUtil;
@@ -75,6 +76,10 @@ public class CodeScanActivity extends ARActivity implements View.OnClickListener
 			case 1:
 				resultCode = CameraDevice.getInstance().start(0, 1280, 720);
 				break;
+
+			case 2:
+				resultCode = CameraDevice.getInstance().start(0, 1920, 1080);
+				break;
 		}
 
 		if (resultCode != ResultCode.Success) {
@@ -82,7 +87,7 @@ public class CodeScanActivity extends ARActivity implements View.OnClickListener
 			finish();
 		}
 
-		CameraDevice.getInstance().setAutoWhiteBalanceLock(true); // For ODG-R7 preventing camera flickering
+		//CameraDevice.getInstance().setAutoWhiteBalanceLock(true); // For ODG-R7 preventing camera flickering
 
 		TrackerManager.getInstance().startTracker(TrackerManager.TRACKER_TYPE_CODE_SCANNER);
 
@@ -143,7 +148,9 @@ public class CodeScanActivity extends ARActivity implements View.OnClickListener
 				return;
 			}
 
-			String code = TrackerManager.getInstance().getCodeScanResult();
+			TrackingState state = TrackerManager.getInstance().updateTrackingState();
+			String code = state.getCodeScanResult();
+
 			if (code != null && code.length() > 0) {
 				try {
 					JSONObject jsonObject = new JSONObject(code);

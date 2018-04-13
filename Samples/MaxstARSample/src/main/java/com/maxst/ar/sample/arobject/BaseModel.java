@@ -6,8 +6,6 @@ package com.maxst.ar.sample.arobject;
 
 import android.opengl.Matrix;
 
-import com.maxst.ar.sample.util.BoundingBox;
-
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
@@ -32,7 +30,6 @@ public abstract class BaseModel {
 	ShortBuffer indexBuffer;
 	FloatBuffer colorBuffer;
 	FloatBuffer textureCoordBuff;
-	BoundingBox boundingBox;
 
 	BaseModel() {
 		Matrix.setIdentityM(localMvpMatrix, 0);
@@ -41,8 +38,6 @@ public abstract class BaseModel {
 		Matrix.setIdentityM(translation, 0);
 		Matrix.setIdentityM(scale, 0);
 		Matrix.setIdentityM(rotation, 0);
-
-		boundingBox = new BoundingBox();
 	}
 
 	public abstract void draw();
@@ -68,9 +63,5 @@ public abstract class BaseModel {
 
 	public void setTransform(float[] transform) {
 		System.arraycopy(transform, 0, this.transform, 0, transform.length);
-	}
-
-	public boolean isTouched(float touchX, float touchY) {
-		return boundingBox.isObjectTouched(touchX, touchY, localMvpMatrix);
 	}
 }

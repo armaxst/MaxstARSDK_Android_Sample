@@ -30,7 +30,7 @@ public class ObjectTrackerActivity extends ARActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_object_tracker);
 
-		ObjectTrackerRenderer renderer = new ObjectTrackerRenderer(this, true);
+		ObjectTrackerRenderer renderer = new ObjectTrackerRenderer(this);
 		glSurfaceView = (GLSurfaceView) findViewById(R.id.gl_surface_view);
 		glSurfaceView.setEGLContextClientVersion(2);
 		glSurfaceView.setRenderer(renderer);
@@ -48,6 +48,7 @@ public class ObjectTrackerActivity extends ARActivity {
 
 		glSurfaceView.onResume();
 		TrackerManager.getInstance().startTracker(TrackerManager.TRACKER_TYPE_OBJECT);
+		TrackerManager.getInstance().setTrackingOption(TrackerManager.TrackingOption.JITTER_REDUCTION_ACTIVATION);
 
 		ResultCode resultCode = ResultCode.Success;
 
@@ -59,6 +60,10 @@ public class ObjectTrackerActivity extends ARActivity {
 			case 1:
 				resultCode = CameraDevice.getInstance().start(0, 1280, 720);
 				break;
+
+			case 2:
+				resultCode = CameraDevice.getInstance().start(0, 1920, 1080);
+				break;
 		}
 
 		if (resultCode != ResultCode.Success) {
@@ -66,7 +71,7 @@ public class ObjectTrackerActivity extends ARActivity {
 			finish();
 		}
 
-		CameraDevice.getInstance().setAutoWhiteBalanceLock(true); // For ODG-R7 preventing camera flickering
+		//CameraDevice.getInstance().setAutoWhiteBalanceLock(true); // For ODG-R7 preventing camera flickering
 
 		MaxstAR.onResume();
 	}

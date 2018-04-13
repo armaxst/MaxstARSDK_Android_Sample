@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.maxst.ar.CameraDevice;
+import com.maxst.ar.GuideInfo;
 import com.maxst.ar.MaxstAR;
 import com.maxst.ar.ResultCode;
 import com.maxst.ar.SensorDevice;
@@ -53,7 +54,7 @@ public class SlamActivity extends ARActivity implements View.OnClickListener /*,
 		mapFileNameEdit = (EditText) findViewById(R.id.map_file_name_edit);
 		mapFileNameEdit.setText("Sample3D");
 
-		ObjectTrackerRenderer renderer = new ObjectTrackerRenderer(this, TrackerManager.TRACKER_TYPE_SLAM, false);
+		SlamRenderer renderer = new SlamRenderer(this);
 		glSurfaceView = (GLSurfaceView) findViewById(R.id.gl_surface_view);
 		glSurfaceView.setEGLContextClientVersion(2);
 		glSurfaceView.setRenderer(renderer);
@@ -81,6 +82,10 @@ public class SlamActivity extends ARActivity implements View.OnClickListener /*,
 
 			case 1:
 				resultCode = CameraDevice.getInstance().start(0, 1280, 720);
+				break;
+
+			case 2:
+				resultCode = CameraDevice.getInstance().start(0, 1920, 1080);
 				break;
 		}
 
@@ -158,14 +163,17 @@ public class SlamActivity extends ARActivity implements View.OnClickListener /*,
 			targetViewWeakReference = new WeakReference<TextView>(targetView);
 		}
 
+		int count = 0;
+
 		@Override
 		public void handleMessage(Message msg) {
 			TextView targetView = targetViewWeakReference.get();
 			if (targetView != null) {
-				SurfaceMesh surfaceMesh = TrackerManager.getInstance().getSurfaceMesh();
-				if (surfaceMesh != null) {
-					int progress = (int)surfaceMesh.getInitialProgress();
-					targetView.setText("Init progress : " + progress);
+				GuideInfo guideInfo = TrackerManager.getInstance().getGuideInformation();
+				if (guideInfo != null) {
+					int progress = (int)guideInfo.getInitialProgress();
+					int keyframeCount = (int)guideInfo.getKeyframeCount();
+					targetView.setText("# Keyframe : " + keyframeCount + ", Init progress : " + progress);
 				}
 
 				sendEmptyMessageDelayed(0, 33);

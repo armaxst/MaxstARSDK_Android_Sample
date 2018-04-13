@@ -10,15 +10,15 @@ import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 
 import com.maxst.ar.CameraDevice;
-import com.maxst.ar.Image;
 import com.maxst.ar.MaxstAR;
 import com.maxst.ar.MaxstARUtil;
 import com.maxst.ar.Trackable;
+import com.maxst.ar.TrackedImage;
 import com.maxst.ar.TrackerManager;
 import com.maxst.ar.TrackingResult;
 import com.maxst.ar.TrackingState;
+import com.maxst.ar.sample.arobject.BackgroundCameraQuad;
 import com.maxst.ar.sample.arobject.TexturedCube;
-import com.maxst.ar.sample.util.BackgroundRenderHelper;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -32,9 +32,10 @@ class CameraConfigureRenderer implements Renderer {
 
 	private int surfaceWidth;
 	private int surfaceHeight;
-	private BackgroundRenderHelper backgroundRenderHelper;
 
 	private final Activity activity;
+
+	private BackgroundCameraQuad backgroundCameraQuad;
 
 	CameraConfigureRenderer(Activity activity) {
 		this.activity = activity;
@@ -44,15 +45,12 @@ class CameraConfigureRenderer implements Renderer {
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-		backgroundRenderHelper = new BackgroundRenderHelper();
-		backgroundRenderHelper.init();
+		backgroundCameraQuad = new BackgroundCameraQuad();
 
 		Bitmap bitmap = MaxstARUtil.getBitmapFromAsset("MaxstAR_Cube.png", activity.getAssets());
 
 		texturedCube = new TexturedCube();
 		texturedCube.setTextureBitmap(bitmap);
-
-		MaxstAR.onSurfaceCreated();
 	}
 
 	@Override
@@ -69,10 +67,10 @@ class CameraConfigureRenderer implements Renderer {
 		GLES20.glViewport(0, 0, surfaceWidth, surfaceHeight);
 
 		TrackingState state = TrackerManager.getInstance().updateTrackingState();
-		TrackingResult trackingResult = TrackerManager.getInstance().getTrackingResult(state);
+		TrackingResult trackingResult = state.getTrackingResult();
 
 		// Get Image test
-		Image image = state.getImage();
+		TrackedImage image = state.getImage();
 		if (image.getWidth() > 0 && image.getHeight() > 0) {
 			Log.d(TAG, "width : " + image.getWidth());
 			Log.d(TAG, "height : " + image.getHeight());
@@ -83,7 +81,9 @@ class CameraConfigureRenderer implements Renderer {
 			}
 		}
 
-		backgroundRenderHelper.drawBackground();
+		float[] cameraProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
+		backgroundCameraQuad.setProjectionMatrix(cameraProjectionMatrix);
+		backgroundCameraQuad.draw(image);
 
 		float[] projectionMatrix = CameraDevice.getInstance().getProjectionMatrix();
 
@@ -93,7 +93,7 @@ class CameraConfigureRenderer implements Renderer {
 			texturedCube.setProjectionMatrix(projectionMatrix);
 			texturedCube.setTransform(trackable.getPoseMatrix());
 			texturedCube.setTranslate(0, 0, -0.05f);
-			texturedCube.setScale(0.3f, 0.3f, 0.1f);
+			texturedCube.setScale(0.15f, 0.15f, 0.1f);
 			texturedCube.draw();
 		}
 	}

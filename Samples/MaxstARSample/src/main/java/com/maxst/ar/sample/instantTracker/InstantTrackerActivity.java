@@ -64,6 +64,10 @@ public class InstantTrackerActivity extends ARActivity implements View.OnTouchLi
 			case 1:
 				resultCode = CameraDevice.getInstance().start(0, 1280, 720);
 				break;
+
+			case 2:
+				resultCode = CameraDevice.getInstance().start(0, 1920, 1080);
+				break;
 		}
 
 		if (resultCode != ResultCode.Success) {
