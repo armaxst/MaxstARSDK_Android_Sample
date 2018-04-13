@@ -76,12 +76,4 @@ public class ScreenRecorderActivity extends AppCompatActivity {
 			record.setTag(0);
 		}
 	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (recorder != null) {
-			recorder.stop();
-		}
-	}
 }
