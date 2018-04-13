@@ -17,6 +17,8 @@ import com.maxst.ar.TrackerManager;
 import com.maxst.ar.sample.ARActivity;
 import com.maxst.ar.sample.R;
 import com.maxst.ar.sample.util.SampleUtil;
+import java.io.IOException;
+
 
 public class ImageTrackerActivity extends ARActivity implements View.OnClickListener {
 
@@ -39,9 +41,15 @@ public class ImageTrackerActivity extends ARActivity implements View.OnClickList
 		glSurfaceView.setEGLContextClientVersion(2);
 		glSurfaceView.setRenderer(imageTargetRenderer);
 
-		TrackerManager.getInstance().addTrackerData("ImageTarget/Blocks.2dmap", true);
-		TrackerManager.getInstance().addTrackerData("ImageTarget/Glacier.2dmap", true);
-		TrackerManager.getInstance().addTrackerData("ImageTarget/Lego.2dmap", true);
+		try {
+			String [] mapFiles = getAssets().list("ImageTarget");
+			for (String fileName : mapFiles) {
+				TrackerManager.getInstance().addTrackerData("ImageTarget/" + fileName, true);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		TrackerManager.getInstance().loadTrackerData();
 
 		preferCameraResolution = getSharedPreferences(SampleUtil.PREF_NAME, Activity.MODE_PRIVATE).getInt(SampleUtil.PREF_KEY_CAM_RESOLUTION, 0);

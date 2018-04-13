@@ -7,6 +7,7 @@ package com.maxst.ar.sample.wearable;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
