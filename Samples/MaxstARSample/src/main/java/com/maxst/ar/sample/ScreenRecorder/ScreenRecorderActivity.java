@@ -1,10 +1,10 @@
 package com.maxst.ar.sample.ScreenRecorder;
 
 import android.content.Intent;
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -68,12 +68,20 @@ public class ScreenRecorderActivity extends AppCompatActivity {
 	private void setRecordButton(boolean isStopped) {
 		if (isStopped) {
 			record.setImageResource(R.drawable.stop_to_record);
-			((AnimatedVectorDrawable) record.getDrawable()).start();
+			((AnimatedVectorDrawableCompat) record.getDrawable()).start();
 			record.setTag(null);
 		} else {
 			record.setImageResource(R.drawable.record_to_stop);
-			((AnimatedVectorDrawable) record.getDrawable()).start();
+			((AnimatedVectorDrawableCompat) record.getDrawable()).start();
 			record.setTag(0);
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (recorder != null) {
+			recorder.stop();
 		}
 	}
 }
