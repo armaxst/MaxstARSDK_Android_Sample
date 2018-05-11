@@ -1,3 +1,6 @@
+/*
+ * Copyright 2016 Maxst, Inc. All Rights Reserved.
+ */
 package com.maxst.ar.sample.arobject;
 
 import android.graphics.Bitmap;
@@ -18,10 +21,6 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import static android.content.ContentValues.TAG;
-
-/**
- * Created by Acper on 2018. 3. 12..
- */
 
 public class FeaturePoint {
     Bitmap blueImage;

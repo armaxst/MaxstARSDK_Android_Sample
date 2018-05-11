@@ -21,7 +21,7 @@ public class SettingsActivity extends Activity implements View.OnClickListener {
 
 		RadioButton sdResolution = (RadioButton) findViewById(R.id.sd_resolution);
 		RadioButton hdResolution = (RadioButton) findViewById(R.id.hd_resolution);
-		RadioButton FhdResolution = (RadioButton) findViewById(R.id.fhd_resolution);
+		RadioButton FhdResolution = (RadioButton) findViewById(R.id.Fhd_resolution);
 
 		sdResolution.setOnClickListener(this);
 		hdResolution.setOnClickListener(this);
@@ -57,7 +57,7 @@ public class SettingsActivity extends Activity implements View.OnClickListener {
 				editor.apply();
 				break;
 
-			case R.id.fhd_resolution:
+			case R.id.Fhd_resolution:
 				editor = getSharedPreferences(SampleUtil.PREF_NAME, Activity.MODE_PRIVATE).edit();
 				editor.putInt(SampleUtil.PREF_KEY_CAM_RESOLUTION, 2);
 				editor.apply();

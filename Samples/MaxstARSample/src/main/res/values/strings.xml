@@ -2,11 +2,11 @@
     <string name="app_name">MaxstAR SDK</string>
     <string name="maxstar_samples">MaxstAR Samples</string>
     <string name="image_tracker">Image Tracker</string>
-    <string name="instant_tracker">Instant Tracker</string>
+    <string name="marker_tracker">Marker Tracker</string>
+	<string name="instant_tracker">Instant Tracker</string>
     <string name="visual_slam">Visual SLAM</string>
     <string name="object_tracker">Object Tracker</string>
     <string name="code_scan">QR/BarCode Scanner</string>
-    <string name="marker_tracker">Marker Tracker</string>
     <string name="camera_configuration">Camera Configuration</string>
     <string name="see_through_hmd_rendering">See-through HMD Rendering</string>
     <string name="camera_direction">Direction</string>
@@ -24,11 +24,10 @@
     <string name="white_balance">White Balance</string>
     <string name="white_balance_auto">Auto</string>
     <string name="white_balance_lock">Lock</string>
-    <string name="app_key">	k+dsxdqvs75klzDBWEgjFB9D2aUB6C3nsM2vepVWNeo=</string>
+    <string name="app_key">GtyweiRZbkkxHWP5JsIQjeZ4rA9YwZ0pkYAaFVKbGsM=</string>
     <string name="camera_resolution">Camera resolution</string>
     <string name="sd_resolution">640x480</string>
     <string name="hd_resolution">1280x720</string>
-    <string name="fhd_resolution">1920x1080</string>
     <string name="start_slam">Start</string>
     <string name="stop_slam">Stop</string>
     <string name="save_map">Save map</string>

@@ -26,48 +26,47 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
+                <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize" />
-        <activity
+            android:configChanges="orientation|screenSize"             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
+                <activity
             android:name=".SettingsActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-        <activity
+                <activity
             android:name=".imageTracker.ImageTrackerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-        <activity
+                <activity
             android:name=".markerTracker.MarkerTrackerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-        <activity
+                <activity
             android:name=".instantTracker.InstantTrackerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-        <activity
+                <activity
             android:name=".slam.SlamActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-        <activity
+                <activity
             android:name=".slam.MapSelectActivity"
-            android:label="@string/map_select"
-            android:theme="@android:style/Theme.Light" />
-        <activity
+            android:theme="@android:style/Theme.Light"             android:label="@string/map_select"/>
+                <activity
             android:name=".slam.ObjectTrackerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-        <activity
+                <activity
             android:name=".code.CodeScanActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-        <activity
+                <activity
             android:name=".wearable.WearableDeviceRenderingActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-        <activity
+                <activity
             android:name=".camera_config.CameraConfigureActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />

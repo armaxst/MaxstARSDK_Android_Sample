@@ -1,8 +1,8 @@
+/*
+ * Copyright 2016 Maxst, Inc. All Rights Reserved.
+ */
 package com.maxst.ar.sample.arobject;
 
-/**
- * Created by Acper on 2018. 3. 15..
- */
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 

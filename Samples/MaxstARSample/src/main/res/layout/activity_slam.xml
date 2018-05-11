@@ -50,13 +50,13 @@
 
     <TextView
         android:id="@+id/slam_init_progress"
-        android:layout_width="150dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
-        android:textStyle="bold"
+        android:text="# keyframe : 0, Init Progress : 0"
         android:textColor="@android:color/white"
-        android:text="Init Progress : "/>
+        android:textStyle="bold"/>
 </RelativeLayout>

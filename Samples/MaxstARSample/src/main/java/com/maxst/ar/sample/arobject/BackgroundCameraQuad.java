@@ -1,3 +1,7 @@
+/*
+ * Copyright 2018 Maxst, Inc. All Rights Reserved.
+ */
+
 package com.maxst.ar.sample.arobject;
 
 import android.opengl.GLES20;
@@ -8,10 +12,6 @@ import com.maxst.ar.sample.util.ShaderUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
-/**
- * Created by Acper on 2018. 2. 6..
- */
 
 public class BackgroundCameraQuad extends BaseModel {
     private static final String VERTEX_SHADER_SRC =
@@ -95,9 +95,6 @@ public class BackgroundCameraQuad extends BaseModel {
         positionHandle = GLES20.glGetAttribLocation(shaderProgramId, "a_position");
         textureCoordHandle = GLES20.glGetAttribLocation(shaderProgramId, "a_vertexTexCoord");
         mvpMatrixHandle = GLES20.glGetUniformLocation(shaderProgramId, "u_mvpMatrix");
-//        textureHandles[0] = GLES20.glGetUniformLocation(shaderProgramId, "SamplerY");
-//        textureHandles[1] = GLES20.glGetUniformLocation(shaderProgramId, "SamplerUV");
-//        textureVHandle = GLES20.glGetUniformLocation(shaderProgramId, "SamplerV");
 
         GLES20.glGenTextures(2, textureNames, 0);
         for(int i = 0; i<2; i++) {
@@ -109,30 +106,6 @@ public class BackgroundCameraQuad extends BaseModel {
             String textureHandleId = "u_texture_" + (i+1);
             textureHandles[i] = GLES20.glGetUniformLocation(shaderProgramId, textureHandleId);
         }
-
-
-
-//        GLES20.glGenTextures(2, textureNames, 0);
-//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureYHandle);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-//
-//        GLES20.glGenTextures(1, textureNameUV, 0);
-//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureUVHandle);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-
-//        GLES20.glGenTextures(1, textureNameV, 0);
-//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureVHandle);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-
     }
 
     @Override

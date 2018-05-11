@@ -34,9 +34,6 @@ class ObjectTrackerRenderer implements Renderer {
 	private TexturedCube texturedCube;
 	private final Activity activity;
 
-	private boolean drawCube = false;
-	private boolean showTrackingLostPopup = false;
-
 	private BackgroundCameraQuad backgroundCameraQuad;
 
 	ObjectTrackerRenderer(Activity activity) {

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.maxst.ar.CameraDevice;
 import com.maxst.ar.MaxstAR;
 import com.maxst.ar.ResultCode;

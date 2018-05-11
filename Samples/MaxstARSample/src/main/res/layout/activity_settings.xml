@@ -34,9 +34,9 @@
 			android:text="@string/hd_resolution"/>
 
 		<RadioButton
-			android:id="@+id/fhd_resolution"
+			android:id="@+id/Fhd_resolution"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/fhd_resolution"/>
-	</RadioGroup>
+			android:text="1920x1080"/>
+		</RadioGroup>
 </RelativeLayout>

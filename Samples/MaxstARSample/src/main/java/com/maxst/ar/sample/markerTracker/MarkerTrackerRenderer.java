@@ -29,7 +29,6 @@ class MarkerTrackerRenderer implements Renderer {
 	public static final String TAG = MarkerTrackerRenderer.class.getSimpleName();
 
 	private TexturedCube texturedCube;
-	private ColoredCube coloredCube;
 
 	private int surfaceWidth;
 	private int surfaceHeight;
@@ -51,8 +50,6 @@ class MarkerTrackerRenderer implements Renderer {
 
 		texturedCube = new TexturedCube();
 		texturedCube.setTextureBitmap(bitmap);
-
-		coloredCube = new ColoredCube();
 	}
 
 	@Override
