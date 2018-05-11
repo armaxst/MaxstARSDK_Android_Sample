@@ -9,7 +9,7 @@ android {
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
 
-        applicationId "com.maxst.arsdk.demoapp"
+        applicationId "com.maxst.ar.sample"
         minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
