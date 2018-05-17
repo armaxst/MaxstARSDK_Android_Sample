@@ -70,7 +70,7 @@
             android:name=".camera_config.CameraConfigureActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
-        <activity android:name=".ScreenRecorder.ScreenRecorderActivity"></activity>
+        <activity android:name=".ScreenRecorder.ui.ScreenRecorderActivity"></activity>
     </application>
 
 </manifest>

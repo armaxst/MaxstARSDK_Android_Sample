@@ -6,11 +6,15 @@ def MAXSTAR_SDK_DIR = '../../Build'
 
 android {
     compileSdkVersion 27
+
+    dataBinding {
+        enabled = true
+    }
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
 
         applicationId "com.maxst.ar.sample"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
         versionName "3.5.0"
@@ -47,18 +51,25 @@ android {
             }
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:27.1.0'
-    testCompile 'junit:junit:4.12'
-    compile files("$MAXSTAR_SDK_DIR/VideoPlayer.jar")
-    compile files("$MAXSTAR_SDK_DIR/MaxstAR.jar")
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    testImplementation 'junit:junit:4.12'
+    implementation files("$MAXSTAR_SDK_DIR/VideoPlayer.jar")
+    implementation files("$MAXSTAR_SDK_DIR/MaxstAR.jar")
     implementation 'com.maxst:screenrecorder:1.0.0@aar'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'com.airbnb.android:lottie:2.5.4'
 }

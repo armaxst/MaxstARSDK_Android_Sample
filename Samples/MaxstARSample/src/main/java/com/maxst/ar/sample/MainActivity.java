@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.maxst.ar.sample.ScreenRecorder.ScreenRecorderActivity;
+import com.maxst.ar.sample.ScreenRecorder.ui.ScreenRecorderActivity;
 import com.maxst.ar.sample.camera_config.CameraConfigureActivity;
 import com.maxst.ar.sample.code.CodeScanActivity;
 import com.maxst.ar.sample.imageTracker.ImageTrackerActivity;
