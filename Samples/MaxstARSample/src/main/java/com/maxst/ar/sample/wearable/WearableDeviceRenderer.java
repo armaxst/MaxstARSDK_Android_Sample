@@ -16,7 +16,7 @@ import com.maxst.ar.TrackerManager;
 import com.maxst.ar.TrackingResult;
 import com.maxst.ar.TrackingState;
 import com.maxst.ar.WearableCalibration;
-import com.maxst.ar.sample.arobject.TexturedCube;
+import com.maxst.ar.sample.arobject.TexturedCubeRenderer;
 import com.maxst.ar.wearable.WearableDeviceController;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -26,7 +26,7 @@ class WearableDeviceRenderer implements Renderer {
 
 	public static final String TAG = WearableDeviceRenderer.class.getSimpleName();
 
-	private TexturedCube texturedCube;
+	private TexturedCubeRenderer texturedCubeRenderer;
 
 	private int surfaceWidth;
 	private int surfaceHeight;
@@ -49,8 +49,8 @@ class WearableDeviceRenderer implements Renderer {
 
 		Bitmap bitmap = MaxstARUtil.getBitmapFromAsset("MaxstAR_Cube.png", activity.getAssets());
 
-		texturedCube = new TexturedCube();
-		texturedCube.setTextureBitmap(bitmap);
+		texturedCubeRenderer = new TexturedCubeRenderer();
+		texturedCubeRenderer.setTextureBitmap(bitmap);
 	}
 
 	@Override
@@ -86,11 +86,11 @@ class WearableDeviceRenderer implements Renderer {
 			for (int i = 0; i < trackingResult.getCount(); i++) {
 				Trackable trackable = trackingResult.getTrackable(i);
 
-				texturedCube.setProjectionMatrix(leftEyeProjectionMatrix);
-				texturedCube.setTransform(trackable.getPoseMatrix());
-				texturedCube.setTranslate(0, 0, -0.005f);
-				texturedCube.setScale(0.26f, 0.18f, 0.01f);
-				texturedCube.draw();
+				texturedCubeRenderer.setProjectionMatrix(leftEyeProjectionMatrix);
+				texturedCubeRenderer.setTransform(trackable.getPoseMatrix());
+				texturedCubeRenderer.setTranslate(0, 0, -0.005f);
+				texturedCubeRenderer.setScale(0.26f, 0.18f, 0.01f);
+				texturedCubeRenderer.draw();
 			}
 
 			GLES20.glViewport((int) rightEyeViewport[0], (int) rightEyeViewport[1], (int) rightEyeViewport[2], (int) rightEyeViewport[3]);
@@ -101,11 +101,11 @@ class WearableDeviceRenderer implements Renderer {
 			for (int i = 0; i < trackingResult.getCount(); i++) {
 				Trackable trackable = trackingResult.getTrackable(i);
 
-				texturedCube.setProjectionMatrix(rightEyeProjectionMatrix);
-				texturedCube.setTransform(trackable.getPoseMatrix());
-				texturedCube.setTranslate(0, 0, -0.005f);
-				texturedCube.setScale(0.26f, 0.18f, 0.01f);
-				texturedCube.draw();
+				texturedCubeRenderer.setProjectionMatrix(rightEyeProjectionMatrix);
+				texturedCubeRenderer.setTransform(trackable.getPoseMatrix());
+				texturedCubeRenderer.setTranslate(0, 0, -0.005f);
+				texturedCubeRenderer.setScale(0.26f, 0.18f, 0.01f);
+				texturedCubeRenderer.draw();
 			}
 		} else {
 			TrackingResult trackingResult = state.getTrackingResult();
@@ -118,11 +118,11 @@ class WearableDeviceRenderer implements Renderer {
 			for (int i = 0; i < trackingResult.getCount(); i++) {
 				Trackable trackable = trackingResult.getTrackable(i);
 
-				texturedCube.setProjectionMatrix(projectionMatrix);
-				texturedCube.setTransform(trackable.getPoseMatrix());
-				texturedCube.setTranslate(0, 0, -0.005f);
-				texturedCube.setScale(0.26f, 0.18f, 0.01f);
-				texturedCube.draw();
+				texturedCubeRenderer.setProjectionMatrix(projectionMatrix);
+				texturedCubeRenderer.setTransform(trackable.getPoseMatrix());
+				texturedCubeRenderer.setTranslate(0, 0, -0.005f);
+				texturedCubeRenderer.setScale(0.26f, 0.18f, 0.01f);
+				texturedCubeRenderer.draw();
 			}
 
 			GLES20.glViewport(surfaceWidth / 2, 0, surfaceWidth / 2, surfaceHeight);
@@ -132,11 +132,11 @@ class WearableDeviceRenderer implements Renderer {
 			for (int i = 0; i < trackingResult.getCount(); i++) {
 				Trackable trackable = trackingResult.getTrackable(i);
 
-				texturedCube.setProjectionMatrix(projectionMatrix);
-				texturedCube.setTransform(trackable.getPoseMatrix());
-				texturedCube.setTranslate(0, 0, -0.005f);
-				texturedCube.setScale(0.26f, 0.18f, 0.01f);
-				texturedCube.draw();
+				texturedCubeRenderer.setProjectionMatrix(projectionMatrix);
+				texturedCubeRenderer.setTransform(trackable.getPoseMatrix());
+				texturedCubeRenderer.setTranslate(0, 0, -0.005f);
+				texturedCubeRenderer.setScale(0.26f, 0.18f, 0.01f);
+				texturedCubeRenderer.draw();
 			}
 		}
 	}

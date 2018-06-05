@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -79,6 +80,8 @@ public class CameraConfigureActivity extends ARActivity {
 
 		glSurfaceView.onResume();
 		ResultCode resultCode = ResultCode.Success;
+
+		CameraDevice.getInstance().setCameraApi(CameraDevice.CameraApi.Api2);
 
 		switch (preferCameraResolution) {
 			case 0:

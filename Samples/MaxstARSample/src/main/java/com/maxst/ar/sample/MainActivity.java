@@ -8,8 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
-import com.maxst.ar.sample.ScreenRecorder.ui.ScreenRecorderActivity;
+import com.maxst.ar.sample.recorder.ScreenRecorderActivity;
 import com.maxst.ar.sample.camera_config.CameraConfigureActivity;
 import com.maxst.ar.sample.code.CodeScanActivity;
 import com.maxst.ar.sample.imageTracker.ImageTrackerActivity;
@@ -80,6 +79,5 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.screen_record:
                 startActivity(new Intent(MainActivity.this, ScreenRecorderActivity.class));
         }
-
     }
 }

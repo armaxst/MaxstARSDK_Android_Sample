@@ -16,11 +16,12 @@ import com.maxst.ar.TrackedImage;
 import com.maxst.ar.TrackerManager;
 import com.maxst.ar.TrackingResult;
 import com.maxst.ar.TrackingState;
-import com.maxst.ar.sample.arobject.BackgroundCameraQuad;
-import com.maxst.ar.sample.arobject.ChromaKeyVideoQuad;
-import com.maxst.ar.sample.arobject.ColoredCube;
-import com.maxst.ar.sample.arobject.TexturedCube;
-import com.maxst.ar.sample.arobject.VideoQuad;
+import com.maxst.ar.sample.arobject.BackgroundRenderHelper;
+import com.maxst.ar.sample.arobject.Yuv420spRenderer;
+import com.maxst.ar.sample.arobject.ChromaKeyVideoRenderer;
+import com.maxst.ar.sample.arobject.ColoredCubeRenderer;
+import com.maxst.ar.sample.arobject.TexturedCubeRenderer;
+import com.maxst.ar.sample.arobject.VideoRenderer;
 import com.maxst.videoplayer.VideoPlayer;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -31,14 +32,14 @@ class ImageTrackerRenderer implements Renderer {
 
 	public static final String TAG = ImageTrackerRenderer.class.getSimpleName();
 
-	private TexturedCube texturedCube;
-	private ColoredCube coloredCube;
-	private VideoQuad videoQuad;
-	private ChromaKeyVideoQuad chromaKeyVideoQuad;
+	private TexturedCubeRenderer texturedCubeRenderer;
+	private ColoredCubeRenderer coloredCubeRenderer;
+	private VideoRenderer videoRenderer;
+	private ChromaKeyVideoRenderer chromaKeyVideoRenderer;
 
 	private int surfaceWidth;
 	private int surfaceHeight;
-	private BackgroundCameraQuad backgroundCameraQuad;
+	private BackgroundRenderHelper backgroundRenderHelper;
 
 	private final Activity activity;
 
@@ -50,24 +51,24 @@ class ImageTrackerRenderer implements Renderer {
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-		backgroundCameraQuad = new BackgroundCameraQuad();
-
 		Bitmap bitmap = MaxstARUtil.getBitmapFromAsset("MaxstAR_Cube.png", activity.getAssets());
 
-		texturedCube = new TexturedCube();
-		texturedCube.setTextureBitmap(bitmap);
+		texturedCubeRenderer = new TexturedCubeRenderer();
+		texturedCubeRenderer.setTextureBitmap(bitmap);
 
-		coloredCube = new ColoredCube();
+		coloredCubeRenderer = new ColoredCubeRenderer();
 
-		videoQuad = new VideoQuad();
+		videoRenderer = new VideoRenderer();
 		VideoPlayer player = new VideoPlayer(activity);
-		videoQuad.setVideoPlayer(player);
+		videoRenderer.setVideoPlayer(player);
 		player.openVideo("VideoSample.mp4");
 
-		chromaKeyVideoQuad = new ChromaKeyVideoQuad();
+		chromaKeyVideoRenderer = new ChromaKeyVideoRenderer();
 		player = new VideoPlayer(activity);
-		chromaKeyVideoQuad.setVideoPlayer(player);
+		chromaKeyVideoRenderer.setVideoPlayer(player);
 		player.openVideo("ShutterShock.mp4");
+
+		backgroundRenderHelper = new BackgroundRenderHelper();
 	}
 
 	@Override
@@ -87,9 +88,8 @@ class ImageTrackerRenderer implements Renderer {
 		TrackingResult trackingResult = state.getTrackingResult();
 
 		TrackedImage image = state.getImage();
-		float[] cameraProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
-		backgroundCameraQuad.setProjectionMatrix(cameraProjectionMatrix);
-		backgroundCameraQuad.draw(image);
+		float[] backgroundPlaneProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
+		backgroundRenderHelper.drawBackground(image, backgroundPlaneProjectionMatrix);
 
 		boolean legoDetected = false;
 		boolean blocksDetected = false;
@@ -99,58 +99,65 @@ class ImageTrackerRenderer implements Renderer {
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 		for (int i = 0; i < trackingResult.getCount(); i++) {
 			Trackable trackable = trackingResult.getTrackable(i);
-			if (trackable.getName().equals("Lego")) {
+			switch (trackable.getName()) {
+				case "Lego":
 				legoDetected = true;
-				if (videoQuad.getVideoPlayer().getState() == VideoPlayer.STATE_READY ||
-						videoQuad.getVideoPlayer().getState() == VideoPlayer.STATE_PAUSE) {
-					videoQuad.getVideoPlayer().start();
+					if (videoRenderer.getVideoPlayer().getState() == VideoPlayer.STATE_READY ||
+							videoRenderer.getVideoPlayer().getState() == VideoPlayer.STATE_PAUSE) {
+						videoRenderer.getVideoPlayer().start();
 				}
-				videoQuad.setProjectionMatrix(projectionMatrix);
-				videoQuad.setTransform(trackable.getPoseMatrix());
-				videoQuad.setTranslate(0.0f, 0.0f, 0.0f);
-				videoQuad.setScale(0.26f, -0.15f, 1.0f);
-				videoQuad.draw();
-			} else if (trackable.getName().equals("Blocks")) {
+					videoRenderer.setProjectionMatrix(projectionMatrix);
+					videoRenderer.setTransform(trackable.getPoseMatrix());
+					videoRenderer.setTranslate(0.0f, 0.0f, 0.0f);
+					videoRenderer.setScale(0.26f, -0.15f, 1.0f);
+					videoRenderer.draw();
+					break;
+
+				case "Blocks":
 				blocksDetected = true;
-				if (chromaKeyVideoQuad.getVideoPlayer().getState() == VideoPlayer.STATE_READY ||
-						chromaKeyVideoQuad.getVideoPlayer().getState() == VideoPlayer.STATE_PAUSE) {
-					chromaKeyVideoQuad.getVideoPlayer().start();
+					if (chromaKeyVideoRenderer.getVideoPlayer().getState() == VideoPlayer.STATE_READY ||
+							chromaKeyVideoRenderer.getVideoPlayer().getState() == VideoPlayer.STATE_PAUSE) {
+						chromaKeyVideoRenderer.getVideoPlayer().start();
 				}
-				chromaKeyVideoQuad.setProjectionMatrix(projectionMatrix);
-				chromaKeyVideoQuad.setTransform(trackable.getPoseMatrix());
-				chromaKeyVideoQuad.setTranslate(0.0f, 0.0f, 0.0f);
-				chromaKeyVideoQuad.setScale(0.26f, -0.18f, 1.0f);
-				chromaKeyVideoQuad.draw();
-			} else if (trackable.getName().equals("Glacier")) {
-				texturedCube.setProjectionMatrix(projectionMatrix);
-				texturedCube.setTransform(trackable.getPoseMatrix());
-				texturedCube.setTranslate(0, 0, -0.025f);
-				texturedCube.setScale(0.15f, 0.15f, 0.05f);
-				texturedCube.draw();
-			} else {
-				coloredCube.setProjectionMatrix(projectionMatrix);
-				coloredCube.setTransform(trackable.getPoseMatrix());
-				texturedCube.setTranslate(0, 0, -0.025f);
-				coloredCube.setScale(0.15f, 0.15f, 0.005f);
-				coloredCube.draw();
+					chromaKeyVideoRenderer.setProjectionMatrix(projectionMatrix);
+					chromaKeyVideoRenderer.setTransform(trackable.getPoseMatrix());
+					chromaKeyVideoRenderer.setTranslate(0.0f, 0.0f, 0.0f);
+					chromaKeyVideoRenderer.setScale(0.26f, -0.18f, 1.0f);
+					chromaKeyVideoRenderer.draw();
+					break;
+
+				case "Glacier":
+					texturedCubeRenderer.setProjectionMatrix(projectionMatrix);
+					texturedCubeRenderer.setTransform(trackable.getPoseMatrix());
+					texturedCubeRenderer.setTranslate(0, 0, -0.025f);
+					texturedCubeRenderer.setScale(0.15f, 0.15f, 0.05f);
+					texturedCubeRenderer.draw();
+					break;
+
+				default:
+					coloredCubeRenderer.setProjectionMatrix(projectionMatrix);
+					coloredCubeRenderer.setTransform(trackable.getPoseMatrix());
+					texturedCubeRenderer.setTranslate(0, 0, -0.025f);
+					coloredCubeRenderer.setScale(0.15f, 0.15f, 0.005f);
+					coloredCubeRenderer.draw();
 			}
 		}
 
 		if (!legoDetected) {
-			if (videoQuad.getVideoPlayer().getState() == VideoPlayer.STATE_PLAYING) {
-				videoQuad.getVideoPlayer().pause();
+			if (videoRenderer.getVideoPlayer().getState() == VideoPlayer.STATE_PLAYING) {
+				videoRenderer.getVideoPlayer().pause();
 			}
 		}
 
 		if (!blocksDetected) {
-			if (chromaKeyVideoQuad.getVideoPlayer().getState() == VideoPlayer.STATE_PLAYING) {
-				chromaKeyVideoQuad.getVideoPlayer().pause();
+			if (chromaKeyVideoRenderer.getVideoPlayer().getState() == VideoPlayer.STATE_PLAYING) {
+				chromaKeyVideoRenderer.getVideoPlayer().pause();
 			}
 		}
 	}
 
 	void destroyVideoPlayer() {
-		videoQuad.getVideoPlayer().destroy();
-		chromaKeyVideoQuad.getVideoPlayer().destroy();
+		videoRenderer.getVideoPlayer().destroy();
+		chromaKeyVideoRenderer.getVideoPlayer().destroy();
 	}
 }

@@ -14,7 +14,7 @@ import com.maxst.ar.sample.util.ShaderUtil;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class TexturedCube extends BaseModel {
+public class TexturedCubeRenderer extends BaseRenderer {
 
 	private static final String VERTEX_SHADER_SRC =
 			"attribute vec4 a_position;\n" +
@@ -131,10 +131,7 @@ public class TexturedCube extends BaseModel {
 			0.833f, 0.500f,
 	};
 
-	private int [] textureNames;
-	private Bitmap textureBitmap;
-
-	public TexturedCube() {
+	public TexturedCubeRenderer() {
 		super();
 		ByteBuffer bb = ByteBuffer.allocateDirect(VERTEX_BUF.length * Float.SIZE / 8);
 		bb.order(ByteOrder.nativeOrder());
@@ -197,13 +194,8 @@ public class TexturedCube extends BaseModel {
 	}
 
 	public void setTextureBitmap(Bitmap texture) {
-		this.textureBitmap = texture;
-
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureNames[0]);
-
-		if (textureBitmap != null) {
-			GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, textureBitmap, 0);
-			textureBitmap.recycle();
-		}
+		GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, texture, 0);
+		texture.recycle();
 	}
 }

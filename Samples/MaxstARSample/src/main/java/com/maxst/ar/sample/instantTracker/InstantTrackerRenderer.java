@@ -17,28 +17,29 @@ import com.maxst.ar.TrackedImage;
 import com.maxst.ar.TrackerManager;
 import com.maxst.ar.TrackingResult;
 import com.maxst.ar.TrackingState;
-import com.maxst.ar.sample.arobject.BackgroundCameraQuad;
-import com.maxst.ar.sample.arobject.TexturedCube;
+import com.maxst.ar.sample.arobject.BackgroundRenderHelper;
+import com.maxst.ar.sample.arobject.Yuv420spRenderer;
+import com.maxst.ar.sample.arobject.TexturedCubeRenderer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 
-class InstantTrackerRenderer implements Renderer {
+public class InstantTrackerRenderer implements Renderer {
 
 	public static final String TAG = InstantTrackerRenderer.class.getSimpleName();
 
 	private int surfaceWidth;
 	private int surfaceHeight;
 
-	private TexturedCube texturedCube;
+	private TexturedCubeRenderer texturedCubeRenderer;
 	private float posX;
 	private float posY;
 	private Activity activity;
 
-	private BackgroundCameraQuad backgroundCameraQuad;
+	private BackgroundRenderHelper backgroundRenderHelper;
 
-	InstantTrackerRenderer(Activity activity) {
+	public InstantTrackerRenderer(Activity activity) {
 		this.activity = activity;
 	}
 
@@ -51,9 +52,8 @@ class InstantTrackerRenderer implements Renderer {
 		TrackingResult trackingResult = state.getTrackingResult();
 
 		TrackedImage image = state.getImage();
-		float[] cameraProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
-		backgroundCameraQuad.setProjectionMatrix(cameraProjectionMatrix);
-		backgroundCameraQuad.draw(image);
+		float[] backgroundPlaneProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
+		backgroundRenderHelper.drawBackground(image, backgroundPlaneProjectionMatrix);
 
 		if (trackingResult.getCount() == 0) {
 			return;
@@ -65,10 +65,10 @@ class InstantTrackerRenderer implements Renderer {
 
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
-		texturedCube.setTransform(trackable.getPoseMatrix());
-		texturedCube.setTranslate(posX, posY, -0.05f);
-		texturedCube.setProjectionMatrix(projectionMatrix);
-		texturedCube.draw();
+		texturedCubeRenderer.setTransform(trackable.getPoseMatrix());
+		texturedCubeRenderer.setTranslate(posX, posY, -0.05f);
+		texturedCubeRenderer.setProjectionMatrix(projectionMatrix);
+		texturedCubeRenderer.draw();
 	}
 
 	@Override
@@ -77,7 +77,7 @@ class InstantTrackerRenderer implements Renderer {
 		surfaceWidth = width;
 		surfaceHeight = height;
 
-		texturedCube.setScale(0.3f, 0.3f, 0.1f);
+		texturedCubeRenderer.setScale(0.3f, 0.3f, 0.1f);
 
 		MaxstAR.onSurfaceChanged(width, height);
 	}
@@ -86,19 +86,19 @@ class InstantTrackerRenderer implements Renderer {
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-		backgroundCameraQuad = new BackgroundCameraQuad();
-
-		texturedCube = new TexturedCube();
+		texturedCubeRenderer = new TexturedCubeRenderer();
 		Bitmap bitmap = MaxstARUtil.getBitmapFromAsset("MaxstAR_Cube.png", activity.getAssets());
-		texturedCube.setTextureBitmap(bitmap);
+		texturedCubeRenderer.setTextureBitmap(bitmap);
+
+		backgroundRenderHelper = new BackgroundRenderHelper();
 	}
 
-	void setTranslate(float x, float y) {
+	public void setTranslate(float x, float y) {
 		posX += x;
 		posY += y;
 	}
 
-	void resetPosition() {
+	public void resetPosition() {
 		posX = 0;
 		posY = 0;
 	}

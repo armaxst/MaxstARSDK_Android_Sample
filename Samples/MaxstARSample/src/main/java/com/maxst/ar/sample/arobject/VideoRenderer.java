@@ -13,7 +13,7 @@ import com.maxst.videoplayer.VideoPlayer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class VideoQuad extends BaseModel {
+public class VideoRenderer extends BaseRenderer {
 
     private static final String VERTEX_SHADER_SRC =
             "attribute vec4 a_position;\n" +
@@ -55,11 +55,10 @@ public class VideoQuad extends BaseModel {
             1.0f, 0.0f,
     };
 
-    private int[] textureNames;
     private VideoPlayer videoPlayer;
     private boolean videoSizeAcquired = false;
 
-    public VideoQuad() {
+    public VideoRenderer() {
         super();
         ByteBuffer bb = ByteBuffer.allocateDirect(VERTEX_BUF.length * Float.SIZE / 8);
         bb.order(ByteOrder.nativeOrder());
@@ -89,7 +88,6 @@ public class VideoQuad extends BaseModel {
         textureNames = new int[1];
     }
 
-    @Override
     public void draw() {
         if (videoPlayer == null) {
             return;

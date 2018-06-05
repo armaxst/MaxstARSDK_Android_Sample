@@ -11,7 +11,7 @@ import com.maxst.ar.sample.util.ShaderUtil;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class Axis extends BaseModel {
+public class AxisRenderer extends BaseRenderer {
     private static final String VERTEX_SHADER_SRC =
             "attribute vec4 a_position;\n" +
                     "attribute vec4 a_color;\n" +
@@ -137,7 +137,7 @@ public class Axis extends BaseModel {
             1.0f, 1.0f, 1.0f, 1.0f,
     };
 
-    public Axis() {
+    public AxisRenderer() {
         super();
         ByteBuffer bb = ByteBuffer.allocateDirect(VERTEX_BUF.length * Float.SIZE / 8);
         bb.order(ByteOrder.nativeOrder());

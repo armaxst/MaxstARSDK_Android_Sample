@@ -16,9 +16,9 @@ import com.maxst.ar.TrackedImage;
 import com.maxst.ar.TrackerManager;
 import com.maxst.ar.TrackingResult;
 import com.maxst.ar.TrackingState;
-import com.maxst.ar.sample.arobject.BackgroundCameraQuad;
-import com.maxst.ar.sample.arobject.ColoredCube;
-import com.maxst.ar.sample.arobject.TexturedCube;
+import com.maxst.ar.sample.arobject.BackgroundRenderHelper;
+import com.maxst.ar.sample.arobject.Yuv420spRenderer;
+import com.maxst.ar.sample.arobject.TexturedCubeRenderer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -28,13 +28,14 @@ class MarkerTrackerRenderer implements Renderer {
 
 	public static final String TAG = MarkerTrackerRenderer.class.getSimpleName();
 
-	private TexturedCube texturedCube;
+	private TexturedCubeRenderer texturedCubeRenderer;
 
 	private int surfaceWidth;
 	private int surfaceHeight;
-	private BackgroundCameraQuad backgroundCameraQuad;
+	private Yuv420spRenderer backgroundCameraQuad;
 
 	private final Activity activity;
+	private BackgroundRenderHelper backgroundRenderHelper;
 
 	MarkerTrackerRenderer(Activity activity) {
 		this.activity = activity;
@@ -44,12 +45,14 @@ class MarkerTrackerRenderer implements Renderer {
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-		backgroundCameraQuad = new BackgroundCameraQuad();
+		backgroundCameraQuad = new Yuv420spRenderer();
 
 		Bitmap bitmap = MaxstARUtil.getBitmapFromAsset("MaxstAR_Cube.png", activity.getAssets());
 
-		texturedCube = new TexturedCube();
-		texturedCube.setTextureBitmap(bitmap);
+		texturedCubeRenderer = new TexturedCubeRenderer();
+		texturedCubeRenderer.setTextureBitmap(bitmap);
+
+		backgroundRenderHelper = new BackgroundRenderHelper();
 	}
 
 	@Override
@@ -69,9 +72,8 @@ class MarkerTrackerRenderer implements Renderer {
 		TrackingResult trackingResult = state.getTrackingResult();
 
 		TrackedImage image = state.getImage();
-		float[] cameraProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
-		backgroundCameraQuad.setProjectionMatrix(cameraProjectionMatrix);
-		backgroundCameraQuad.draw(image);
+		float[] backgroundPlaneProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
+		backgroundRenderHelper.drawBackground(image, backgroundPlaneProjectionMatrix);
 
 		float[] projectionMatrix = CameraDevice.getInstance().getProjectionMatrix();
 
@@ -79,11 +81,11 @@ class MarkerTrackerRenderer implements Renderer {
 		for (int i = 0; i < trackingResult.getCount(); i++) {
 			Trackable trackable = trackingResult.getTrackable(i);
 
-			texturedCube.setProjectionMatrix(projectionMatrix);
-			texturedCube.setTransform(trackable.getPoseMatrix());
-			texturedCube.setTranslate(0, 0, -0.05f);
-			texturedCube.setScale(1.0f, 1.0f, 0.1f);
-			texturedCube.draw();
+			texturedCubeRenderer.setProjectionMatrix(projectionMatrix);
+			texturedCubeRenderer.setTransform(trackable.getPoseMatrix());
+			texturedCubeRenderer.setTranslate(0, 0, -0.05f);
+			texturedCubeRenderer.setScale(1.0f, 1.0f, 0.1f);
+			texturedCubeRenderer.draw();
 		}
 	}
 }

@@ -20,9 +20,9 @@ import com.maxst.ar.TrackedImage;
 import com.maxst.ar.TrackerManager;
 import com.maxst.ar.TrackingResult;
 import com.maxst.ar.TrackingState;
-import com.maxst.ar.sample.arobject.Axis;
-import com.maxst.ar.sample.arobject.BackgroundCameraQuad;
-import com.maxst.ar.sample.arobject.FeaturePoint;
+import com.maxst.ar.sample.arobject.AxisRenderer;
+import com.maxst.ar.sample.arobject.BackgroundRenderHelper;
+import com.maxst.ar.sample.arobject.FeaturePointRenderer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -32,17 +32,16 @@ class SlamRenderer implements Renderer {
 	private int surfaceWidth;
 	private int surfaceHeight;
 
-	private FeaturePoint featurePoint;
-	private Axis axis;
+	private FeaturePointRenderer featurePointRenderer;
+	private AxisRenderer axisRenderer;
 	private final Activity activity;
+	private boolean showTrackingLostPopupOnce = false;
 
-	private boolean showTrackingLostPopup = false;
-	private int trackerType = TrackerManager.TRACKER_TYPE_OBJECT;
-
-	private BackgroundCameraQuad backgroundCameraQuad;
+	private BackgroundRenderHelper backgroundRenderHelper;
 
 	SlamRenderer(Activity activity) {
 		this.activity = activity;
+		backgroundRenderHelper = new BackgroundRenderHelper();
 	}
 
 	@Override
@@ -54,28 +53,28 @@ class SlamRenderer implements Renderer {
 		TrackingResult trackingResult = state.getTrackingResult();
 
 		TrackedImage image = state.getImage();
-		float[] cameraProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
-		backgroundCameraQuad.setProjectionMatrix(cameraProjectionMatrix);
-		backgroundCameraQuad.draw(image);
+		float[] backgroundPlaneProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
+		backgroundRenderHelper.drawBackground(image, backgroundPlaneProjectionMatrix);
 
 		float[] projectionMatrix = CameraDevice.getInstance().getProjectionMatrix();
 
-		featurePoint.draw(TrackerManager.getInstance().getGuideInformation(), projectionMatrix);
+		featurePointRenderer.setProjectionMatrix(projectionMatrix);
+		featurePointRenderer.draw(TrackerManager.getInstance().getGuideInformation(), trackingResult);
 
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
 		if (trackingResult.getCount() > 0) {
 			Trackable trackable = trackingResult.getTrackable(0);
 
-			axis.setTransform(trackable.getPoseMatrix());
-			axis.setTranslate(0, 0, 0);
-			axis.setScale(0.3f, 0.3f, 0.3f);
-			axis.setProjectionMatrix(projectionMatrix);
-			axis.draw();
+			axisRenderer.setProjectionMatrix(projectionMatrix);
+			axisRenderer.setTransform(trackable.getPoseMatrix());
+			axisRenderer.setTranslate(0, 0, 0);
+			axisRenderer.setScale(0.3f, 0.3f, 0.3f);
+			axisRenderer.draw();
 
-			showTrackingLostPopup = true;
+			showTrackingLostPopupOnce = true;
 		} else {
-			if (showTrackingLostPopup) {
+			if (showTrackingLostPopupOnce) {
 				new Handler(Looper.getMainLooper()).post(new Runnable() {
 					@Override
 					public void run() {
@@ -83,7 +82,7 @@ class SlamRenderer implements Renderer {
 					}
 				});
 
-				showTrackingLostPopup = false;
+				showTrackingLostPopupOnce = false;
 			}
 		}
 	}
@@ -100,13 +99,13 @@ class SlamRenderer implements Renderer {
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-		backgroundCameraQuad = new BackgroundCameraQuad();
-		featurePoint = new FeaturePoint();
-		axis = new Axis();
+		featurePointRenderer = new FeaturePointRenderer();
+		axisRenderer = new AxisRenderer();
 
 		Bitmap blueBitmap = MaxstARUtil.getBitmapFromAsset("bluedot.png", activity.getAssets());
 		Bitmap redBitmap = MaxstARUtil.getBitmapFromAsset("reddot.png", activity.getAssets());
-		featurePoint.setFeatureImage(blueBitmap, redBitmap);
-		featurePoint.setTrackState(true);
+		featurePointRenderer.setFeatureImage(blueBitmap, redBitmap);
+
+		backgroundRenderHelper = new BackgroundRenderHelper();
 	}
 }

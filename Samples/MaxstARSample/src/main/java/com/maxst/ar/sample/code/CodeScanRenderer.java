@@ -12,7 +12,8 @@ import com.maxst.ar.MaxstAR;
 import com.maxst.ar.TrackedImage;
 import com.maxst.ar.TrackerManager;
 import com.maxst.ar.TrackingState;
-import com.maxst.ar.sample.arobject.BackgroundCameraQuad;
+import com.maxst.ar.sample.arobject.BackgroundRenderHelper;
+import com.maxst.ar.sample.arobject.Yuv420spRenderer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -21,9 +22,7 @@ class CodeScanRenderer implements Renderer {
 
 	private int surfaceWidth;
 	private int surfaceHeight;
-	private BackgroundCameraQuad backgroundCameraQuad;
-
-	public CodeScanRenderer() {}
+	private BackgroundRenderHelper backgroundRenderHelper;
 
 	@Override
 	public void onDrawFrame(GL10 unused) {
@@ -33,9 +32,8 @@ class CodeScanRenderer implements Renderer {
 		TrackingState state = TrackerManager.getInstance().updateTrackingState();
 
 		TrackedImage image = state.getImage();
-		float[] cameraProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
-		backgroundCameraQuad.setProjectionMatrix(cameraProjectionMatrix);
-		backgroundCameraQuad.draw(image);
+		float[] backgroundPlaneProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
+		backgroundRenderHelper.drawBackground(image, backgroundPlaneProjectionMatrix);
 	}
 
 	@Override
@@ -45,12 +43,11 @@ class CodeScanRenderer implements Renderer {
 		surfaceHeight = height;
 
 		MaxstAR.onSurfaceChanged(width, height);
+		backgroundRenderHelper = new BackgroundRenderHelper();
 	}
 
 	@Override
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-		backgroundCameraQuad = new BackgroundCameraQuad();
 	}
 }

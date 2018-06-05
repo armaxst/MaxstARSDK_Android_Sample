@@ -9,7 +9,7 @@ import android.opengl.Matrix;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-public abstract class BaseModel {
+public abstract class BaseRenderer {
 
 	float[] localMvpMatrix = new float[16];
 	float [] projectionMatrix = new float[16];
@@ -26,21 +26,23 @@ public abstract class BaseModel {
 	int mvpMatrixHandle;
 	int textureHandle;
 
+	int[] textureNames;
+	int[] textureHandles;
+
 	FloatBuffer vertexBuffer;
 	ShortBuffer indexBuffer;
 	FloatBuffer colorBuffer;
 	FloatBuffer textureCoordBuff;
 
-	BaseModel() {
+	BaseRenderer() {
 		Matrix.setIdentityM(localMvpMatrix, 0);
 		Matrix.setIdentityM(projectionMatrix, 0);
 		Matrix.setIdentityM(modelMatrix, 0);
 		Matrix.setIdentityM(translation, 0);
 		Matrix.setIdentityM(scale, 0);
 		Matrix.setIdentityM(rotation, 0);
+		Matrix.setIdentityM(transform, 0);
 	}
-
-	public abstract void draw();
 
 	public void setProjectionMatrix(float [] projectionMatrix) {
 		this.projectionMatrix = projectionMatrix;
@@ -64,4 +66,6 @@ public abstract class BaseModel {
 	public void setTransform(float[] transform) {
 		System.arraycopy(transform, 0, this.transform, 0, transform.length);
 	}
+
+	public void draw() { }
 }

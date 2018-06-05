@@ -14,7 +14,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         applicationId "com.maxst.ar.sample"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "3.5.0"
@@ -31,24 +31,16 @@ android {
         jniLibs.srcDir "$MAXSTAR_SDK_DIR"
     }
 
-    archivesBaseName = rootProject.projectDir.getName()
-
     buildTypes {
         release {
             minifyEnabled true
             useProguard true
             debuggable false
-            ndk {
-                abiFilters "armeabi-v7a"
-            }
         }
         debug {
             minifyEnabled false
             useProguard false
             debuggable true
-            ndk {
-                abiFilters "armeabi-v7a"
-            }
         }
     }
     compileOptions {
@@ -67,9 +59,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation files("$MAXSTAR_SDK_DIR/VideoPlayer.jar")
     implementation files("$MAXSTAR_SDK_DIR/MaxstAR.jar")
-    implementation 'com.maxst:screenrecorder:1.0.0@aar'
+//    implementation 'com.maxst:screenrecorder:1.0.0@aar'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
-    implementation 'com.airbnb.android:lottie:2.5.4'
+    implementation project(':ScreenRecorder')
 }

@@ -12,7 +12,7 @@ import com.maxst.ar.sample.util.ShaderUtil;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-public class ColoredCube extends BaseModel {
+public class ColoredCubeRenderer extends BaseRenderer {
 
 	private static final String VERTEX_SHADER_SRC =
 			"attribute vec4 a_position;\n" +
@@ -65,7 +65,7 @@ public class ColoredCube extends BaseModel {
 			0.0f, 0.0f, 0.0f, 1.0f,
 	};
 
-	public ColoredCube() {
+	public ColoredCubeRenderer() {
 		super();
 		ByteBuffer bb = ByteBuffer.allocateDirect(VERTEX_BUF.length * Float.SIZE / 8);
 		bb.order(ByteOrder.nativeOrder());
@@ -92,7 +92,6 @@ public class ColoredCube extends BaseModel {
 		mvpMatrixHandle = GLES20.glGetUniformLocation(shaderProgramId, "u_mvpMatrix");
 	}
 
-	@Override
 	public void draw() {
 		GLES20.glUseProgram(shaderProgramId);
 
