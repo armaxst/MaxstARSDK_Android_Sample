@@ -75,9 +75,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             case R.id.settings:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                break;
 
             case R.id.screen_record:
                 startActivity(new Intent(MainActivity.this, ScreenRecorderActivity.class));
+                break;
         }
     }
 }
