@@ -12,3 +12,5 @@ Android native sample for MaxstAR SDK.
 7. Wearable glasses rendering
 8. Camera surface view resizing on runtime
 9. Screen recording
+
+* Download SDK files at https://developer.maxst.com/MD/download/sdk.
