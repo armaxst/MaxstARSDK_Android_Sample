@@ -17,7 +17,7 @@ import com.maxst.ar.TrackingResult;
 import com.maxst.ar.TrackingState;
 import com.maxst.ar.WearableCalibration;
 import com.maxst.ar.sample.arobject.TexturedCubeRenderer;
-import com.maxst.ar.wearable.WearableDeviceController;
+import com.maxst.ar.WearableDeviceController;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

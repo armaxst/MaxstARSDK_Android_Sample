@@ -24,7 +24,7 @@ import com.maxst.ar.WearableCalibration;
 import com.maxst.ar.sample.ARActivity;
 import com.maxst.ar.sample.R;
 import com.maxst.ar.sample.util.SampleUtil;
-import com.maxst.ar.wearable.WearableDeviceController;
+import com.maxst.ar.WearableDeviceController;
 
 public class WearableDeviceRenderingActivity extends ARActivity implements View.OnClickListener {
 

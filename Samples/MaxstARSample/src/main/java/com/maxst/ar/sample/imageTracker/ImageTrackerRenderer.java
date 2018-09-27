@@ -23,7 +23,6 @@ import com.maxst.ar.sample.arobject.ColoredCubeRenderer;
 import com.maxst.ar.sample.arobject.TexturedCubeRenderer;
 import com.maxst.ar.sample.arobject.VideoRenderer;
 import com.maxst.videoplayer.VideoPlayer;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
