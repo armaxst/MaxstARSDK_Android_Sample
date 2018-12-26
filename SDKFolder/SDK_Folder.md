@@ -1,3 +1,1 @@
-SDK Folder.
-
-Add SDK files. ../Build
+Copy SDK's Build folder here

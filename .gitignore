@@ -9,3 +9,4 @@ Samples/local.properties
 *.ap_
 *.dex
 *.class
+SDKFolder/Build/

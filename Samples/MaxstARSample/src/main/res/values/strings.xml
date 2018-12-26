@@ -47,4 +47,5 @@
 	<string name="setting">Setting</string>
 	<string name="screen_recorder">Screen Recorder</string>
 	<string name="record">record</string>
+	<string name="web_view_augmentation">WebView Augmentation</string>
 </resources>
