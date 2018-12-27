@@ -31,18 +31,7 @@ android {
         jni.srcDirs = []
         jniLibs.srcDir "$MAXSTAR_SDK_DIR"
     }
-    buildTypes {
-        release {
-            minifyEnabled true
-            useProguard true
-            debuggable false
-        }
-        debug {
-            minifyEnabled false
-            useProguard false
-            debuggable true
-        }
-    }
+
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
