@@ -1,1 +1,1 @@
-include ':MaxstARSample', ':ScreenRecorder'
+include ':MaxstARSample', ':MaxstARJniSample', ':ScreenRecorder'
