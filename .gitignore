@@ -9,3 +9,7 @@ Samples/local.properties
 *.ap_
 *.dex
 *.class
+SDKFolder/Build/
+Samples/MaxstARJniSample/.externalNativeBuild/
+Samples/MaxstARJniSample/build/
+Samples/MaxstARJniSample/obj/

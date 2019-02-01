@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/activity_main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<android.opengl.GLSurfaceView
+		android:id="@+id/gl_surface_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
+
+	<RadioGroup
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:checkedButton="@+id/normal_tracking">
+
+		<RadioButton
+			android:id="@+id/normal_tracking"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:checked="true"
+			android:text="@string/normal_tracking"/>
+
+		<RadioButton
+			android:id="@+id/extended_tracking"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/extended_tracking"/>
+
+		<RadioButton
+			android:id="@+id/multi_tracking"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/multi_tracking"/>
+	</RadioGroup>
+</FrameLayout>

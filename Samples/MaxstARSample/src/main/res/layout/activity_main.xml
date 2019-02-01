@@ -191,6 +191,22 @@
 				android:layout_width="match_parent"
 				android:layout_height="0.35dp"
 				android:background="#3f3f3f" />
+
+			<TextView
+				android:id="@+id/web_view_augmentation"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@drawable/txt_view_selector"
+				android:focusable="true"
+				android:gravity="center_horizontal"
+				android:padding="10dp"
+				android:text="@string/web_view_augmentation"
+				android:textSize="25sp" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0.35dp"
+				android:background="#3f3f3f" />
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

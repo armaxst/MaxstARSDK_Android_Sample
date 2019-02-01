@@ -2,10 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-def MAXSTAR_SDK_DIR = '../../SDKFolder'
+def MAXSTAR_SDK_DIR = '../../SDKFolder/Build'
 
 android {
     compileSdkVersion 28
+    buildToolsVersion '28.0.1'
+
     dataBinding {
         enabled = true
     }
@@ -29,23 +31,11 @@ android {
         jni.srcDirs = []
         jniLibs.srcDir "$MAXSTAR_SDK_DIR"
     }
-    buildTypes {
-        release {
-            minifyEnabled true
-            useProguard true
-            debuggable false
-        }
-        debug {
-            minifyEnabled false
-            useProguard false
-            debuggable true
-        }
-    }
+
     compileOptions {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
-    buildToolsVersion '28.0.1'
 }
 
 dependencies {
