@@ -56,9 +56,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				startActivity(new Intent(MainActivity.this, InstantTrackerActivity.class));
 				break;
 
-			case R.id.object_mapping:
-				startActivity(new Intent(MainActivity.this, SlamActivity.class));
-				break;
+//			case R.id.object_mapping:
+//				startActivity(new Intent(MainActivity.this, SlamActivity.class));
+//				break;
 
 			case R.id.object_target:
 				startActivity(new Intent(MainActivity.this, MapSelectActivity.class));

@@ -71,7 +71,7 @@ public class SlamActivity extends ARActivity implements View.OnClickListener /*,
 
 		glSurfaceView.onResume();
 		SensorDevice.getInstance().start();
-		TrackerManager.getInstance().startTracker(TrackerManager.TRACKER_TYPE_SLAM);
+		//TrackerManager.getInstance().startTracker(TrackerManager.TRACKER_TYPE_SLAM);
 
 		ResultCode resultCode = ResultCode.Success;
 

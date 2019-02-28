@@ -100,7 +100,8 @@
 				android:nextFocusLeft="@id/instant_image_target"
 				android:padding="10dp"
 				android:text="@string/visual_slam"
-				android:textSize="25sp" />
+				android:textSize="25sp"
+				android:visibility="gone"/>
 
 			<View
 				android:layout_width="match_parent"
