@@ -44,7 +44,7 @@ namespace maxstAR
 		/**
 		* @brief get class instance
 		*/
-		static CameraDevice * getInstance();
+		static CameraDevice* getInstance();
 
 		CameraDevice() {}
 		virtual ~CameraDevice() {}
@@ -80,6 +80,19 @@ namespace maxstAR
 		* @return true if focus setting success
 		*/
 		virtual bool setFocusMode(FocusMode mode) = 0;
+        
+        /**
+         * @brief Set Camera Zoom Scale
+         * @param zoomScale Zoom value
+         * @return result Zoom.
+         */
+        virtual bool setZoom(float zoomScale) = 0;
+        
+        /**
+         * @brief Get Camera Device Max Zoom value.
+         * @return Max Zoom value.
+         */
+        virtual float getMaxZoomValue() = 0;
 
 		/**
 		* @brief Turn on/off flash light
@@ -98,6 +111,12 @@ namespace maxstAR
 		*/
 		virtual void flipVideo(CameraDevice::FlipDirection direction, bool toggle) = 0;
 
+        /**
+         * @brief Get supported parameter key
+         * @param key parameter key
+         * @return Parameter value
+         */
+        virtual const char* getParam(const char* key) = 0;
 
 		/**
 		* @brief Get supported parameter key list
@@ -111,7 +130,7 @@ namespace maxstAR
 		* @param toggle Parameter value
 		* @return True if setting success
 		*/
-		virtual bool setParam(std::string key, bool toggle) = 0;
+		virtual bool setParam(const char* key, bool toggle) = 0;
 
 		/**
 		* @brief Set camera parameter (Android only supported now)
@@ -119,7 +138,7 @@ namespace maxstAR
 		* @param value Parameter value
 		* @return True if setting success
 		*/
-		virtual bool setParam(std::string key, int value) = 0;
+		virtual bool setParam(const char* key, int value) = 0;
 
 		/**
 		* @brief Set camera parameter (Android only supported now)
@@ -128,7 +147,7 @@ namespace maxstAR
 		* @param max Parameter max value
 		* @return True if setting success
 		*/
-		virtual bool setParam(std::string key, int min, int max) = 0;
+		virtual bool setParam(const char* key, int min, int max) = 0;
 
 		/**
 		* @brief Set camera parameter (Android only supported now)
@@ -136,10 +155,17 @@ namespace maxstAR
 		* @param value Parameter value
 		* @return True if setting success
 		*/
-		virtual bool setParam(std::string key, std::string value) = 0;
+		virtual bool setParam(const char* key, const char* value) = 0;
 
 		/**
-		* @brief Set new image data for tracking and background rendering (Only enterprise license key can activate this interface)
+		* @brief Set camera calibration data
+		* @param filename calibartion file path
+		* @return True if setting success
+		*/
+		virtual bool setCalibrationData(const char* filename) = 0;
+
+		/**
+		* @brief Set new image data for tracking and background rendering (Free, Enterprise license key can activate this interface)
 		* @param data image data bytes.
 		* @param length image length
 		* @param width image width
@@ -147,10 +173,10 @@ namespace maxstAR
 		* @param format image format
 		* @return 
 		*/
-		virtual bool setNewFrame(Byte * data, int length, int width, int height, ColorFormat format) = 0;
+		virtual bool setNewFrame(Byte* data, int length, int width, int height, ColorFormat format) = 0;
 
 		/**
-		* @brief Set new image data for tracking and background rendering (Only enterprise license key can activate this interface)
+		* @brief Set new image data for tracking and background rendering (Free, Enterprise license key can activate this interface)
 		* @param data image data bytes.
 		* @param length image length
 		* @param width image width
@@ -159,18 +185,18 @@ namespace maxstAR
 		* @param timestamp image timestamp
 		* @return 
 		*/
-		virtual bool setNewFrameAndTimestamp(Byte * data, int length, int width, int height, ColorFormat format, unsigned long long int timestamp) = 0;
+		virtual bool setNewFrameAndTimestamp(Byte* data, int length, int width, int height, ColorFormat format, unsigned long long int timestamp) = 0;
 
 		/**
 		* @brief Get projection matrix. This is used for augmented objects projection and background rendering
 		* @return 4x4 gl matrix (Column major)
 		*/
-		virtual float * getProjectionMatrix() = 0;
+		virtual float* getProjectionMatrix() = 0;
 
 		/**
 		* @brief Get projection matrix for background plane rendering
 		* @return 4x4 gl matrix (Column major)
 		*/
-		virtual const float * getBackgroundPlaneProjectionMatrix() = 0;
+		virtual const float* getBackgroundPlaneProjectionMatrix() = 0;
 	};
 }

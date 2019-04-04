@@ -15,7 +15,7 @@ namespace maxstAR
 	class MAXSTAR_API SensorDevice
 	{
 	public:
-		static SensorDevice * getInstance();
+		static SensorDevice* getInstance();
 
 		SensorDevice() {}
 		virtual ~SensorDevice() {}
@@ -34,6 +34,6 @@ namespace maxstAR
 		* @brief Set new sensor data
 		* @param data rotation data float[9]
 		*/
-		virtual void setNewSensorData(float *data) = 0;
+		virtual void setNewSensorData(float* data) = 0;
 	};
 }

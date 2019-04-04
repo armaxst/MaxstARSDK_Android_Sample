@@ -27,7 +27,7 @@ namespace maxstAR
 		* @param index target index
 		* @return Trackable class instance
 		*/
-		virtual ITrackable * getTrackable(int index) = 0;
+		virtual ITrackable* getTrackable(int index) = 0;
 
 		/**
 		* @brief Get tracking target count. Current version ar engine could not track multi target. 

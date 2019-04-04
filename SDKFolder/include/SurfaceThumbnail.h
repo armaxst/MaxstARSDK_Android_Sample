@@ -45,7 +45,7 @@ namespace maxstAR
 		/**
 		* @return thumbnail image data pointer
 		*/
-		virtual unsigned char * getData() = 0;
+		virtual unsigned char* getData() = 0;
 	};
 }
 

@@ -15,7 +15,7 @@ namespace maxstAR
 	/**
 	* @brief Get sdk version
 	*/
-	MAXSTAR_API std::string getVersion();
+	MAXSTAR_API const char* getVersion();
 
 	/**
 	* @brief Initialize AR engine

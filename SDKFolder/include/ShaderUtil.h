@@ -34,7 +34,7 @@ Copyright 2017 Maxst, Inc. All Rights Reserved.
 class ShaderUtil
 {
 public:
-	static unsigned int createProgram(const char * vertexString, const char * fragmentString)
+	static unsigned int createProgram(const char* vertexString, const char* fragmentString)
 	{
 		GLuint vertexShader = loadShader(GL_VERTEX_SHADER, vertexString);
 		if (!vertexShader)
@@ -79,7 +79,7 @@ public:
 		return program;
 	}
 
-	static unsigned int loadShader(unsigned int shaderType, const char *pSource)
+	static unsigned int loadShader(unsigned int shaderType, const char* pSource)
 	{
 		GLuint shader = glCreateShader((GLenum)shaderType);
 		if (shader)
@@ -109,7 +109,7 @@ public:
 		return shader;
 	}
 
-	static void checkGlError(const char *op)
+	static void checkGlError(const char* op)
 	{
 		for (GLint error = glGetError(); error; error = glGetError())
 		{

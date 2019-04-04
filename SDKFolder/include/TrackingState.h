@@ -30,7 +30,7 @@ namespace maxstAR
 		 * @brief Get QRCode / Barcode recognition result
 		 * @return QRCode or barcode text
 		 */
-		virtual string getCodeScanResult() = 0;
+		virtual const char* getCodeScanResult() = 0;
 
 		/**
 		* @brief Get image used for tracking

@@ -28,6 +28,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			case R.id.image_target:
 				startActivity(new Intent(MainActivity.this, ImageTrackerActivity.class));
 				break;
+			case R.id.settings:
+				startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+				break;
 		}
 	}
 }

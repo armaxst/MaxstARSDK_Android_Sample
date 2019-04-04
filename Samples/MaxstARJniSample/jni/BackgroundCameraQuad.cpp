@@ -6,6 +6,7 @@ Copyright 2017 Maxst, Inc. All Rights Reserved.
 #include "BackgroundCameraQuad.h"
 #include <CameraDevice.h>
 #include <vecmath.h>
+#include <string.h>
 
 static float VERTEX_BUF[] =
 {

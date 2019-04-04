@@ -82,27 +82,27 @@ namespace maxstAR
 		* @brief Get calibrated extrinsic parameter
 		* @return 4x4 extrinsic camera matrix
 		*/
-		virtual float *getRt4x4(int eyeType) = 0;
+		virtual float* getRt4x4(int eyeType) = 0;
 
 		/**
 		* @brief Get calibrated intrinsic parameter
 		* @return 3x3 intrinsic camera matrix
 		*/
-		virtual float *getK3x3(int eyeType) = 0;
+		virtual float* getK3x3(int eyeType) = 0;
 
 		/**
 		* @brief Get calibrated viewport for opengl
 		* @param eyeType Id of eye
 		* @return viewport (x, y, width, height)
 		*/
-		virtual float *getViewport(int eyeType) = 0;
+		virtual float* getViewport(int eyeType) = 0;
 
 		/**
 		* @brief Get calibrated projection matrix for opengl
 		* @param eyeType Id of eye
 		* @return projection matrix 4x4
 		*/
-		virtual float *getProjectionMatrix(int eyeType) = 0;
+		virtual float* getProjectionMatrix(int eyeType) = 0;
 
 		/**
 		* @brief Get calibration guide target position according to distance type
@@ -117,7 +117,7 @@ namespace maxstAR
 		* @brief Get orthogonal screen projection matrix
 		* @return projection matrix 4x4
 		*/
-		virtual float *getScreenCoordinate() = 0;
+		virtual float* getScreenCoordinate() = 0;
 
 		/**
 		* @brief Get calibration guide target scale according to distance type for opengl

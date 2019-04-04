@@ -45,7 +45,7 @@ namespace maxstAR
 		/**
 		* @brief Get image data
 		*/
-		virtual const unsigned char * getData() = 0;
+		virtual const unsigned char* getData() = 0;
 
 		/**
 		* @brief Get image index

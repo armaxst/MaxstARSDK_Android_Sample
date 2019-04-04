@@ -1,4 +1,4 @@
-﻿/*==============================================================================
+/*==============================================================================
 Copyright 2017 Maxst, Inc. All Rights Reserved.
 ==============================================================================*/
 
@@ -13,6 +13,7 @@ namespace maxstAR
 	/**
 	* @brief Contains surface's mesh data generated from slam tracking
 	*/
+    struct TagAnchor;
 	class MAXSTAR_API GuideInfo
 	{
 	public:	
@@ -37,6 +38,15 @@ namespace maxstAR
 		/**
 		* @return Get 2d screen positions of features for guide
 		*/
-		virtual float *getFeatureBuffer() = 0;
+		virtual float* getFeatureBuffer() = 0;
+
+		/**
+		* @return Get a bounding box of a scanned object
+		*/
+		virtual float* getBoundingBox() = 0;
+        
+        virtual char* getTagAnchors() = 0;
+        
+        virtual int getTagAnchorsLength() = 0;
 	};
 }

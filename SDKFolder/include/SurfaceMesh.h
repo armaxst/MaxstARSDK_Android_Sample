@@ -1,4 +1,4 @@
-﻿/*==============================================================================
+/*==============================================================================
 Copyright 2017 Maxst, Inc. All Rights Reserved.
 ==============================================================================*/
 
@@ -31,11 +31,11 @@ namespace maxstAR
 		/**
 		* @return surface mesh vertex buffer (Always returns same address so vertex count must be considered)
 		*/
-		virtual float *getVertexBuffer() = 0;
+		virtual float* getVertexBuffer() = 0;
 
 		/**
 		* @return surface mesh index buffer (Always returns same address so index count must be considered )
 		*/
-		virtual unsigned short *getIndexBuffer() = 0;
+		virtual unsigned short* getIndexBuffer() = 0;
 	};
 }

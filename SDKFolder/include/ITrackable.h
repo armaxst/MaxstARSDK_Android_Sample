@@ -29,12 +29,12 @@ namespace maxstAR
 		/**
 		* @return tracking target name name (file name without extension)
 		*/
-		virtual string getName() = 0;
+		virtual const char* getName() = 0;
 
 		/**
 		* @return tracking target id
 		*/
-		virtual string getId() = 0;
+		virtual const char* getId() = 0;
 
 		/**
 		* @return width of trackable
@@ -46,8 +46,8 @@ namespace maxstAR
 		*/
 		virtual float getHeight() = 0;
         
-        virtual string getCloudName() = 0;
+        virtual const char* getCloudName() = 0;
         
-        virtual string getCloudMetaData() = 0;
+        virtual const char* getCloudMetaData() = 0;
 	};
 }
