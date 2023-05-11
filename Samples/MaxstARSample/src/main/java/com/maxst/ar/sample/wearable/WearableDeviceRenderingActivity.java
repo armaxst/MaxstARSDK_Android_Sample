@@ -5,8 +5,10 @@
 package com.maxst.ar.sample.wearable;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -21,12 +23,11 @@ import com.maxst.ar.MaxstAR;
 import com.maxst.ar.ResultCode;
 import com.maxst.ar.TrackerManager;
 import com.maxst.ar.WearableCalibration;
-import com.maxst.ar.sample.ARActivity;
 import com.maxst.ar.sample.R;
 import com.maxst.ar.sample.util.SampleUtil;
 import com.maxst.ar.WearableDeviceController;
 
-public class WearableDeviceRenderingActivity extends ARActivity implements View.OnClickListener {
+public class WearableDeviceRenderingActivity extends AppCompatActivity implements View.OnClickListener {
 
 	private static final String TAG = WearableDeviceRenderingActivity.class.getSimpleName();
 
@@ -44,17 +45,15 @@ public class WearableDeviceRenderingActivity extends ARActivity implements View.
 		findViewById(R.id.extended_tracking).setOnClickListener(this);
 		findViewById(R.id.multi_tracking).setOnClickListener(this);
 
+		MaxstAR.init(this.getApplicationContext(), getResources().getString(R.string.app_key));
+		MaxstAR.setScreenOrientation(getResources().getConfiguration().orientation);
+
 		wearableDeviceController = WearableDeviceController.createDeviceController(this);
 		WearableDeviceRenderer imageTargetRenderer = new WearableDeviceRenderer(this, wearableDeviceController);
 		glSurfaceView = (GLSurfaceView) findViewById(R.id.gl_surface_view);
 		glSurfaceView.setEGLContextClientVersion(2);
 		glSurfaceView.setRenderer(imageTargetRenderer);
 //		glSurfaceView.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
-
-		TrackerManager.getInstance().addTrackerData("ImageTarget/Blocks.2dmap", true);
-		TrackerManager.getInstance().addTrackerData("ImageTarget/Glacier.2dmap", true);
-		TrackerManager.getInstance().addTrackerData("ImageTarget/Lego.2dmap", true);
-		TrackerManager.getInstance().loadTrackerData();
 
 		preferCameraResolution = getSharedPreferences(SampleUtil.PREF_NAME, Activity.MODE_PRIVATE).getInt(SampleUtil.PREF_KEY_CAM_RESOLUTION, 0);
 
@@ -85,7 +84,13 @@ public class WearableDeviceRenderingActivity extends ARActivity implements View.
 
 		wearableDeviceController.setStereoMode(true);
 		glSurfaceView.onResume();
+
 		TrackerManager.getInstance().startTracker(TrackerManager.TRACKER_TYPE_IMAGE);
+		TrackerManager.getInstance().addTrackerData("ImageTarget/Blocks.2dmap", true);
+		TrackerManager.getInstance().addTrackerData("ImageTarget/Glacier.2dmap", true);
+		TrackerManager.getInstance().addTrackerData("ImageTarget/Lego.2dmap", true);
+		TrackerManager.getInstance().loadTrackerData();
+
 
 		ResultCode resultCode = ResultCode.Success;
 		switch (preferCameraResolution) {
@@ -130,6 +135,8 @@ public class WearableDeviceRenderingActivity extends ARActivity implements View.
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		TrackerManager.getInstance().destroyTracker();
+		MaxstAR.deinit();
 	}
 
 	@Override
@@ -147,6 +154,19 @@ public class WearableDeviceRenderingActivity extends ARActivity implements View.
 				TrackerManager.getInstance().setTrackingOption(TrackerManager.TrackingOption.MULTI_TRACKING);
 				break;
 		}
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+
+		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+		}
+
+		MaxstAR.setScreenOrientation(newConfig.orientation);
 	}
 
 //	ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {

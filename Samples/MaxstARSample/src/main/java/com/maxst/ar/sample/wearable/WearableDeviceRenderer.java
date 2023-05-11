@@ -51,6 +51,7 @@ class WearableDeviceRenderer implements Renderer {
 
 		texturedCubeRenderer = new TexturedCubeRenderer();
 		texturedCubeRenderer.setTextureBitmap(bitmap);
+		CameraDevice.getInstance().setClippingPlane(0.03f, 70.0f);
 	}
 
 	@Override

@@ -1,1 +1,0 @@
-Copy SDK's Build folder here

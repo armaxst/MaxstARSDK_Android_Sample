@@ -21,4 +21,25 @@
 		android:textStyle="bold"
 		android:textColor="@android:color/white"
 		android:text="Recognized Marker ID : "/>
+
+	<RadioGroup
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:checkedButton="@+id/normal_tracking">
+
+	<RadioButton
+		android:id="@+id/normal_tracking"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:checked="true"
+		android:text="@string/normal_tracking"/>
+
+	<RadioButton
+		android:id="@+id/enhanced_tracking"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/enhanced_tracking"/>
+	</RadioGroup>
+
 </RelativeLayout>

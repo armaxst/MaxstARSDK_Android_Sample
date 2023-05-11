@@ -2,12 +2,19 @@
 	<string name="app_name">MaxstAR SDK</string>
 	<string name="maxstar_samples">MaxstAR Samples</string>
 	<string name="image_tracker">Image Tracker</string>
+	<string name="image_fusion_tracker">Image Fusion Tracker</string>
 	<string name="marker_tracker">Marker Tracker</string>
+	<string name="marker_fusion_tracker">Marker Fusion Tracker</string>
 	<string name="instant_tracker">Instant Tracker</string>
-	<string name="visual_slam">Visual SLAM</string>
+	<string name="instant_fusion_tracker">Instant Fusion Tracker</string>
 	<string name="object_tracker">Object Tracker</string>
-	<string name="code_scan">QR/BarCode Scanner</string>
+	<string name="object_fusion_tracker">Object Fusion Tracker</string>
+	<string name="code_scan">QR/BarCode Reader</string>
 	<string name="camera_configuration">Camera Configuration</string>
+	<string name="cloud_tracker">Cloud Recognizer</string>
+	<string name="qrcode_tracker">QRCode Tracker</string>
+	<string name="qrcode_fusion_tracker">QRCode Fusion Tracker</string>
+	<string name="space_tracker">Space Tracker</string>
 	<string name="see_through_hmd_rendering">See-through HMD Rendering</string>
 	<string name="camera_direction">Direction</string>
 	<string name="camera_direction_rear">Rear</string>
@@ -24,7 +31,7 @@
 	<string name="white_balance">White Balance</string>
 	<string name="white_balance_auto">Auto</string>
 	<string name="white_balance_lock">Lock</string>
-	<string name="app_key">3/woHwEM+Vnilvoqn88rEB6eocPbzzaVgEzlFkXAH7o=</string>
+	<string name="app_key"></string>
 	<string name="camera_resolution">Camera resolution</string>
 	<string name="sd_resolution">640x480</string>
 	<string name="hd_resolution">1280x720</string>
@@ -38,14 +45,12 @@
 	<string name="extended_tracking">Extended Tracking</string>
 	<string name="normal_tracking">Normal Tracking</string>
 	<string name="multi_tracking">Multi Tracking</string>
+	<string name="enhanced_tracking">Enhanced Tracking</string>
 	<string name="no_map_files_exist">No map files exist. Please create map file via Visual SLAM menu</string>
 	<string name="start_tracking">Start tracking</string>
 	<string name="stop_tracking">Stop tracking</string>
 	<string name="camera_open_fail">Camera open fails. Please check camera permission is allowed</string>
 	<string name="map_select">Select map file</string>
 	<string name="resize_camera_view">Resize camera view</string>
-	<string name="setting">Setting</string>
-	<string name="screen_recorder">Screen Recorder</string>
-	<string name="record">record</string>
-	<string name="web_view_augmentation">WebView Augmentation</string>
+	<string name="initialize_guide">Move your Device.</string>
 </resources>

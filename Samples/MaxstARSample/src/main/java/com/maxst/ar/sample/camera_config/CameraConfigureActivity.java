@@ -5,10 +5,10 @@
 package com.maxst.ar.sample.camera_config;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -16,15 +16,16 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.maxst.ar.CameraDevice;
 import com.maxst.ar.MaxstAR;
 import com.maxst.ar.ResultCode;
 import com.maxst.ar.TrackerManager;
-import com.maxst.ar.sample.ARActivity;
 import com.maxst.ar.sample.R;
 import com.maxst.ar.sample.util.SampleUtil;
 
-public class CameraConfigureActivity extends ARActivity {
+public class CameraConfigureActivity extends AppCompatActivity {
 
 	private static final String TAG = CameraConfigureActivity.class.getSimpleName();
 
@@ -66,12 +67,10 @@ public class CameraConfigureActivity extends ARActivity {
 		glSurfaceView.setEGLContextClientVersion(2);
 		glSurfaceView.setRenderer(new CameraConfigureRenderer(this));
 
-		TrackerManager.getInstance().addTrackerData("ImageTarget/Blocks.2dmap", true);
-		TrackerManager.getInstance().addTrackerData("ImageTarget/Glacier.2dmap", true);
-		TrackerManager.getInstance().addTrackerData("ImageTarget/Lego.2dmap", true);
-		TrackerManager.getInstance().loadTrackerData();
-
 		preferCameraResolution = getSharedPreferences(SampleUtil.PREF_NAME, Activity.MODE_PRIVATE).getInt(SampleUtil.PREF_KEY_CAM_RESOLUTION, 0);
+
+		MaxstAR.init(this.getApplicationContext(), getResources().getString(R.string.app_key));
+		MaxstAR.setScreenOrientation(getResources().getConfiguration().orientation);
 	}
 
 	@Override
@@ -80,8 +79,6 @@ public class CameraConfigureActivity extends ARActivity {
 
 		glSurfaceView.onResume();
 		ResultCode resultCode = ResultCode.Success;
-
-		CameraDevice.getInstance().setCameraApi(CameraDevice.CameraApi.Api2);
 
 		switch (preferCameraResolution) {
 			case 0:
@@ -109,6 +106,10 @@ public class CameraConfigureActivity extends ARActivity {
 		}
 
 		TrackerManager.getInstance().startTracker(TrackerManager.TRACKER_TYPE_IMAGE);
+		TrackerManager.getInstance().addTrackerData("ImageTarget/Blocks.2dmap", true);
+		TrackerManager.getInstance().addTrackerData("ImageTarget/Glacier.2dmap", true);
+		TrackerManager.getInstance().addTrackerData("ImageTarget/Lego.2dmap", true);
+		TrackerManager.getInstance().loadTrackerData();
 
 		MaxstAR.onResume();
 	}
@@ -127,6 +128,8 @@ public class CameraConfigureActivity extends ARActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		TrackerManager.getInstance().destroyTracker();
+		MaxstAR.deinit();
 	}
 
 	private RadioButton.OnClickListener cameraDirectionClickListener = new RadioButton.OnClickListener() {
@@ -249,4 +252,17 @@ public class CameraConfigureActivity extends ARActivity {
 			}
 		}
 	};
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+
+		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+		}
+
+		MaxstAR.setScreenOrientation(newConfig.orientation);
+	}
 }

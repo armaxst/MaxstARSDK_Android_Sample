@@ -28,6 +28,7 @@
 			android:layout_gravity="right|center_vertical"
 			android:focusable="true"
 			android:src="@mipmap/settings" />
+
 	</FrameLayout>
 
 	<ScrollView
@@ -91,31 +92,12 @@
 				android:background="#3f3f3f" />
 
 			<TextView
-				android:id="@+id/object_mapping"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@drawable/txt_view_selector"
-				android:focusable="true"
-				android:gravity="center_horizontal"
-				android:nextFocusLeft="@id/instant_image_target"
-				android:padding="10dp"
-				android:text="@string/visual_slam"
-				android:textSize="25sp"
-				android:visibility="gone"/>
-
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="0.35dp"
-				android:background="#3f3f3f" />
-
-			<TextView
 				android:id="@+id/object_target"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:background="@drawable/txt_view_selector"
 				android:focusable="true"
 				android:gravity="center_horizontal"
-				android:nextFocusLeft="@id/object_mapping"
 				android:padding="10dp"
 				android:text="@string/object_tracker"
 				android:textSize="25sp" />
@@ -177,15 +159,15 @@
 				android:background="#3f3f3f" />
 
 			<TextView
-				android:id="@+id/screen_record"
+				android:id="@+id/cloud_tracker"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:background="@drawable/txt_view_selector"
 				android:focusable="true"
 				android:gravity="center_horizontal"
-				android:nextFocusLeft="@id/camera_configuration"
+				android:nextFocusLeft="@id/see_through_hmd_rendering"
 				android:padding="10dp"
-				android:text="@string/screen_recorder"
+				android:text="@string/cloud_tracker"
 				android:textSize="25sp" />
 
 			<View
@@ -194,20 +176,125 @@
 				android:background="#3f3f3f" />
 
 			<TextView
-				android:id="@+id/web_view_augmentation"
+				android:id="@+id/qr_code_tracker"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:background="@drawable/txt_view_selector"
 				android:focusable="true"
 				android:gravity="center_horizontal"
+				android:nextFocusLeft="@id/see_through_hmd_rendering"
 				android:padding="10dp"
-				android:text="@string/web_view_augmentation"
+				android:text="@string/qrcode_tracker"
+				android:textSize="25sp" />
+
+			<View
+				android:id="@+id/view"
+				android:layout_width="match_parent"
+				android:layout_height="0.35dp"
+				android:background="#3f3f3f" />
+
+			<TextView
+				android:id="@+id/image_fusion_target"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@drawable/txt_view_selector"
+				android:focusable="true"
+				android:gravity="center_horizontal"
+				android:nextFocusLeft="@id/settings"
+				android:padding="10dp"
+				android:text="@string/image_fusion_tracker"
 				android:textSize="25sp" />
 
 			<View
 				android:layout_width="match_parent"
 				android:layout_height="0.35dp"
 				android:background="#3f3f3f" />
+
+			<TextView
+				android:id="@+id/instant_fusion_target"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@drawable/txt_view_selector"
+				android:focusable="true"
+				android:gravity="center_horizontal"
+				android:nextFocusLeft="@id/settings"
+				android:padding="10dp"
+				android:text="@string/instant_fusion_tracker"
+				android:textSize="25sp" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0.35dp"
+				android:background="#3f3f3f" />
+
+			<TextView
+				android:id="@+id/object_fusion_target"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@drawable/txt_view_selector"
+				android:focusable="true"
+				android:gravity="center_horizontal"
+				android:nextFocusLeft="@id/settings"
+				android:padding="10dp"
+				android:text="@string/object_fusion_tracker"
+				android:textSize="25sp" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0.35dp"
+				android:background="#3f3f3f" />
+
+			<TextView
+				android:id="@+id/qrcode_fusion_target"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@drawable/txt_view_selector"
+				android:focusable="true"
+				android:gravity="center_horizontal"
+				android:nextFocusLeft="@id/settings"
+				android:padding="10dp"
+				android:text="@string/qrcode_fusion_tracker"
+				android:textSize="25sp" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0.35dp"
+				android:background="#3f3f3f" />
+
+			<TextView
+				android:id="@+id/marker_fusion_target"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@drawable/txt_view_selector"
+				android:focusable="true"
+				android:gravity="center_horizontal"
+				android:nextFocusLeft="@id/settings"
+				android:padding="10dp"
+				android:text="@string/marker_fusion_tracker"
+				android:textSize="25sp" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0.35dp"
+				android:background="#3f3f3f" />
+
+			<TextView
+				android:id="@+id/space_target"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@drawable/txt_view_selector"
+				android:focusable="true"
+				android:gravity="center_horizontal"
+				android:nextFocusLeft="@id/settings"
+				android:padding="10dp"
+				android:text="@string/space_tracker"
+				android:textSize="25sp" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0.35dp"
+				android:background="#3f3f3f" />
+
 		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

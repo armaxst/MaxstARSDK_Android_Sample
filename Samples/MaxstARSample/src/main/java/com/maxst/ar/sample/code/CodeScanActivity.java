@@ -5,12 +5,12 @@
 package com.maxst.ar.sample.code;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
-import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,22 +18,18 @@ import com.maxst.ar.CameraDevice;
 import com.maxst.ar.MaxstAR;
 import com.maxst.ar.ResultCode;
 import com.maxst.ar.TrackerManager;
-import com.maxst.ar.TrackingState;
-import com.maxst.ar.sample.ARActivity;
 import com.maxst.ar.sample.R;
 import com.maxst.ar.sample.util.SampleUtil;
+import com.maxst.ar.sample.util.TrackerResultListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.ref.WeakReference;
 import java.util.Locale;
 
-public class CodeScanActivity extends ARActivity implements View.OnClickListener {
+public class CodeScanActivity extends AppCompatActivity {
 
 	private GLSurfaceView glSurfaceView;
-	private CodeScanResultHandler resultHandler;
-	private Button startScan;
 	TextView codeFormatView;
 	TextView codeValueView;
 	private AutoFocusHandler autoFocusHandler;
@@ -44,9 +40,6 @@ public class CodeScanActivity extends ARActivity implements View.OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_code_scan);
 
-		startScan = (Button)findViewById(R.id.start_scan);
-		startScan.setOnClickListener(this);
-
 		CodeScanRenderer renderer = new CodeScanRenderer();
 		glSurfaceView = (GLSurfaceView)findViewById(R.id.gl_surface_view);
 		glSurfaceView.setEGLContextClientVersion(2);
@@ -55,10 +48,13 @@ public class CodeScanActivity extends ARActivity implements View.OnClickListener
 		codeFormatView = (TextView)findViewById(R.id.code_format);
 		codeValueView = (TextView)findViewById(R.id.code_value);
 
-		resultHandler = new CodeScanResultHandler(this);
 		autoFocusHandler = new AutoFocusHandler();
 
 		preferCameraResolution = getSharedPreferences(SampleUtil.PREF_NAME, Activity.MODE_PRIVATE).getInt(SampleUtil.PREF_KEY_CAM_RESOLUTION, 0);
+		renderer.listener = resultListener;
+
+		MaxstAR.init(this.getApplicationContext(), getResources().getString(R.string.app_key));
+		MaxstAR.setScreenOrientation(getResources().getConfiguration().orientation);
 	}
 
 	@Override
@@ -90,10 +86,6 @@ public class CodeScanActivity extends ARActivity implements View.OnClickListener
 		//CameraDevice.getInstance().setAutoWhiteBalanceLock(true); // For ODG-R7 preventing camera flickering
 
 		TrackerManager.getInstance().startTracker(TrackerManager.TRACKER_TYPE_CODE_SCANNER);
-
-		resultHandler.sendEmptyMessageDelayed(0, 33);
-		startScan.setEnabled(false);
-		startScan.setText(getString(R.string.now_scanning));
 		autoFocusHandler.start();
 	}
 
@@ -102,8 +94,6 @@ public class CodeScanActivity extends ARActivity implements View.OnClickListener
 		super.onPause();
 
 		glSurfaceView.onPause();
-
-		resultHandler.removeCallbacksAndMessages(null);
 		TrackerManager.getInstance().stopTracker();
 		CameraDevice.getInstance().stop();
 		autoFocusHandler.stop();
@@ -114,60 +104,40 @@ public class CodeScanActivity extends ARActivity implements View.OnClickListener
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		resultHandler = null;
+		TrackerManager.getInstance().destroyTracker();
+		MaxstAR.deinit();
 	}
 
-	@Override
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.start_scan:
-				TrackerManager.getInstance().startTracker(TrackerManager.TRACKER_TYPE_CODE_SCANNER);
-				resultHandler.sendEmptyMessageDelayed(0, 33);
-				startScan.setEnabled(false);
-				startScan.setText(getString(R.string.now_scanning));
-				codeFormatView.setText("");
-				codeValueView.setText("");
-				break;
-		}
-	}
-
-	private static class CodeScanResultHandler extends Handler {
-
-		WeakReference<CodeScanActivity> activityWeakReference;
-
-		CodeScanResultHandler(CodeScanActivity activity) {
-			activityWeakReference = new WeakReference<>(activity);
+	private TrackerResultListener resultListener = new TrackerResultListener() {
+		@Override
+		public void sendData(final String metaData) {
+			(CodeScanActivity.this).runOnUiThread(new Runnable(){
+				@Override
+				public void run() {
+					if (metaData != null && metaData.length() > 0) {
+						try {
+							JSONObject jsonObject = new JSONObject(metaData);
+							codeFormatView.setText(String.format(Locale.US, "%s%s", (CodeScanActivity.this).getResources().getString(R.string.code_format), jsonObject.getString("Format")));
+							codeValueView.setText(String.format(Locale.US, "%s%s", (CodeScanActivity.this).getResources().getString(R.string.code_value), jsonObject.getString("Value")));
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			});
 		}
 
 		@Override
-		public void handleMessage(Message msg) {
+		public void sendFusionState(final int state) {
+			(CodeScanActivity.this).runOnUiThread(new Runnable(){
+				@Override
+				public void run() {
 
-			CodeScanActivity activity = activityWeakReference.get();
-
-			if (activity == null) {
-				return;
-			}
-
-			TrackingState state = TrackerManager.getInstance().updateTrackingState();
-			String code = state.getCodeScanResult();
-
-			if (code != null && code.length() > 0) {
-				try {
-					JSONObject jsonObject = new JSONObject(code);
-					activity.codeFormatView.setText(String.format(Locale.US, "%s%s", activity.getResources().getString(R.string.code_format), jsonObject.getString("Format")));
-					activity.codeValueView.setText(String.format(Locale.US, "%s%s", activity.getResources().getString(R.string.code_value), jsonObject.getString("Value")));
-				} catch (JSONException e) {
-					e.printStackTrace();
 				}
-				TrackerManager.getInstance().stopTracker();
-				TrackerManager.getInstance().destroyTracker();
-				activity.startScan.setEnabled(true);
-				activity.startScan.setText(activity.getString(R.string.start_scan));
-			} else {
-				sendEmptyMessageDelayed(0, 30);
-			}
+			});
+
 		}
-	}
+	};
 
 	private static class AutoFocusHandler extends Handler {
 
@@ -184,5 +154,18 @@ public class CodeScanActivity extends ARActivity implements View.OnClickListener
 			CameraDevice.getInstance().setFocusMode(CameraDevice.FocusMode.FOCUS_MODE_AUTO);
 			sendEmptyMessageDelayed(0, 3000);
 		}
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+
+		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+		}
+
+		MaxstAR.setScreenOrientation(newConfig.orientation);
 	}
 }

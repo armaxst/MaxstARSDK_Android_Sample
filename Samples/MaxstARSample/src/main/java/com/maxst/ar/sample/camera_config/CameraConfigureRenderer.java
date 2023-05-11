@@ -17,7 +17,6 @@ import com.maxst.ar.TrackerManager;
 import com.maxst.ar.TrackingResult;
 import com.maxst.ar.TrackingState;
 import com.maxst.ar.sample.arobject.BackgroundRenderHelper;
-import com.maxst.ar.sample.arobject.Yuv420spRenderer;
 import com.maxst.ar.sample.arobject.TexturedCubeRenderer;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -50,6 +49,7 @@ class CameraConfigureRenderer implements Renderer {
 		texturedCubeRenderer = new TexturedCubeRenderer();
 		texturedCubeRenderer.setTextureBitmap(bitmap);
 		backgroundRenderHelper = new BackgroundRenderHelper();
+		CameraDevice.getInstance().setClippingPlane(0.03f, 70.0f);
 	}
 
 	@Override
@@ -68,10 +68,12 @@ class CameraConfigureRenderer implements Renderer {
 		TrackingState state = TrackerManager.getInstance().updateTrackingState();
 		TrackingResult trackingResult = state.getTrackingResult();
 		TrackedImage image = state.getImage();
-		float[] backgroundPlaneProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
-		backgroundRenderHelper.drawBackground(image, backgroundPlaneProjectionMatrix);
-
 		float[] projectionMatrix = CameraDevice.getInstance().getProjectionMatrix();
+		float[] backgroundPlaneInfo = CameraDevice.getInstance().getBackgroundPlaneInfo();
+		boolean flipHorizontal = CameraDevice.getInstance().isVideoFlipped(CameraDevice.FlipDirection.HORIZONTAL);
+		boolean flipVertical = CameraDevice.getInstance().isVideoFlipped(CameraDevice.FlipDirection.VERTICAL);
+
+		backgroundRenderHelper.drawBackground(image, projectionMatrix, backgroundPlaneInfo, flipHorizontal, flipVertical);
 
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 		for (int i = 0; i < trackingResult.getCount(); i++) {

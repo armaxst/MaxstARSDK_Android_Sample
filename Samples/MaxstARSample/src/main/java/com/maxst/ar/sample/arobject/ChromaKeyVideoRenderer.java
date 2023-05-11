@@ -54,10 +54,10 @@ public class ChromaKeyVideoRenderer extends BaseRenderer {
     };
 
     private static final float[] TEXTURE_COORD_BUF = {
-            0.0f, 0.0f,
             0.0f, 1.0f,
-            1.0f, 1.0f,
+            0.0f, 0.0f,
             1.0f, 0.0f,
+            1.0f, 1.0f,
     };
 
     private VideoPlayer videoPlayer;

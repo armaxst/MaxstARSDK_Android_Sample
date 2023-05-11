@@ -12,8 +12,15 @@ import com.maxst.ar.MaxstAR;
 import com.maxst.ar.TrackedImage;
 import com.maxst.ar.TrackerManager;
 import com.maxst.ar.TrackingState;
+import com.maxst.ar.sample.R;
 import com.maxst.ar.sample.arobject.BackgroundRenderHelper;
 import com.maxst.ar.sample.arobject.Yuv420spRenderer;
+import com.maxst.ar.sample.util.TrackerResultListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Locale;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -23,6 +30,7 @@ class CodeScanRenderer implements Renderer {
 	private int surfaceWidth;
 	private int surfaceHeight;
 	private BackgroundRenderHelper backgroundRenderHelper;
+	public TrackerResultListener listener = null;
 
 	@Override
 	public void onDrawFrame(GL10 unused) {
@@ -32,8 +40,17 @@ class CodeScanRenderer implements Renderer {
 		TrackingState state = TrackerManager.getInstance().updateTrackingState();
 
 		TrackedImage image = state.getImage();
-		float[] backgroundPlaneProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
-		backgroundRenderHelper.drawBackground(image, backgroundPlaneProjectionMatrix);
+		float[] projectionMatrix = CameraDevice.getInstance().getProjectionMatrix();
+		float[] backgroundPlaneInfo = CameraDevice.getInstance().getBackgroundPlaneInfo();
+
+		backgroundRenderHelper.drawBackground(image, projectionMatrix, backgroundPlaneInfo);
+
+		String code = state.getCodeScanResult();
+
+		if (code != null && code.length() > 0) {
+			listener.sendData(code);
+		}
+
 	}
 
 	@Override
@@ -44,6 +61,7 @@ class CodeScanRenderer implements Renderer {
 
 		MaxstAR.onSurfaceChanged(width, height);
 		backgroundRenderHelper = new BackgroundRenderHelper();
+		CameraDevice.getInstance().setClippingPlane(0.03f, 70.0f);
 	}
 
 	@Override
