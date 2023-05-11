@@ -5,8 +5,10 @@
 package com.maxst.ar.sample.instantTracker;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -17,11 +19,10 @@ import com.maxst.ar.MaxstAR;
 import com.maxst.ar.ResultCode;
 import com.maxst.ar.SensorDevice;
 import com.maxst.ar.TrackerManager;
-import com.maxst.ar.sample.ARActivity;
 import com.maxst.ar.sample.R;
 import com.maxst.ar.sample.util.SampleUtil;
 
-public class InstantTrackerActivity extends ARActivity implements View.OnTouchListener, View.OnClickListener {
+public class InstantTrackerActivity extends AppCompatActivity implements View.OnTouchListener, View.OnClickListener {
 
 	private InstantTrackerRenderer instantTargetRenderer;
 	private int preferCameraResolution = 0;
@@ -44,6 +45,9 @@ public class InstantTrackerActivity extends ARActivity implements View.OnTouchLi
 		glSurfaceView.setOnTouchListener(this);
 
 		preferCameraResolution = getSharedPreferences(SampleUtil.PREF_NAME, Activity.MODE_PRIVATE).getInt(SampleUtil.PREF_KEY_CAM_RESOLUTION, 0);
+
+		MaxstAR.init(this.getApplicationContext(), getResources().getString(R.string.app_key));
+		MaxstAR.setScreenOrientation(getResources().getConfiguration().orientation);
 	}
 
 	@Override
@@ -94,6 +98,8 @@ public class InstantTrackerActivity extends ARActivity implements View.OnTouchLi
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		TrackerManager.getInstance().destroyTracker();
+		MaxstAR.deinit();
 	}
 
 	private static final float TOUCH_TOLERANCE = 5;
@@ -170,5 +176,18 @@ public class InstantTrackerActivity extends ARActivity implements View.OnTouchLi
 				}
 				break;
 		}
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+
+		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+		}
+
+		MaxstAR.setScreenOrientation(newConfig.orientation);
 	}
 }

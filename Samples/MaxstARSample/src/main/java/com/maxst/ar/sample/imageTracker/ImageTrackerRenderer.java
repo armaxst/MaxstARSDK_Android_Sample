@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
+import android.util.Log;
 
 import com.maxst.ar.CameraDevice;
 import com.maxst.ar.MaxstAR;
@@ -23,6 +24,7 @@ import com.maxst.ar.sample.arobject.ColoredCubeRenderer;
 import com.maxst.ar.sample.arobject.TexturedCubeRenderer;
 import com.maxst.ar.sample.arobject.VideoRenderer;
 import com.maxst.videoplayer.VideoPlayer;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -68,6 +70,7 @@ class ImageTrackerRenderer implements Renderer {
 		player.openVideo("ShutterShock.mp4");
 
 		backgroundRenderHelper = new BackgroundRenderHelper();
+		CameraDevice.getInstance().setClippingPlane(0.03f, 70.0f);
 	}
 
 	@Override
@@ -87,57 +90,61 @@ class ImageTrackerRenderer implements Renderer {
 		TrackingResult trackingResult = state.getTrackingResult();
 
 		TrackedImage image = state.getImage();
-		float[] backgroundPlaneProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
-		backgroundRenderHelper.drawBackground(image, backgroundPlaneProjectionMatrix);
+		float[] projectionMatrix = CameraDevice.getInstance().getProjectionMatrix();
+		float[] backgroundPlaneInfo = CameraDevice.getInstance().getBackgroundPlaneInfo();
+
+		backgroundRenderHelper.drawBackground(image, projectionMatrix, backgroundPlaneInfo);
 
 		boolean legoDetected = false;
 		boolean blocksDetected = false;
 
-		float[] projectionMatrix = CameraDevice.getInstance().getProjectionMatrix();
 
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 		for (int i = 0; i < trackingResult.getCount(); i++) {
 			Trackable trackable = trackingResult.getTrackable(i);
+
+			//Log.i(TAG, "Image width : " + trackable.getWidth() + ", height : " + trackable.getHeight());
+
 			switch (trackable.getName()) {
 				case "Lego":
-				legoDetected = true;
+					legoDetected = true;
 					if (videoRenderer.getVideoPlayer().getState() == VideoPlayer.STATE_READY ||
 							videoRenderer.getVideoPlayer().getState() == VideoPlayer.STATE_PAUSE) {
 						videoRenderer.getVideoPlayer().start();
-				}
+					}
 					videoRenderer.setProjectionMatrix(projectionMatrix);
 					videoRenderer.setTransform(trackable.getPoseMatrix());
 					videoRenderer.setTranslate(0.0f, 0.0f, 0.0f);
-					videoRenderer.setScale(0.26f, -0.15f, 1.0f);
+					videoRenderer.setScale(trackable.getWidth(), trackable.getHeight(), 1.0f);
 					videoRenderer.draw();
 					break;
 
 				case "Blocks":
-				blocksDetected = true;
+					blocksDetected = true;
 					if (chromaKeyVideoRenderer.getVideoPlayer().getState() == VideoPlayer.STATE_READY ||
 							chromaKeyVideoRenderer.getVideoPlayer().getState() == VideoPlayer.STATE_PAUSE) {
 						chromaKeyVideoRenderer.getVideoPlayer().start();
-				}
+					}
 					chromaKeyVideoRenderer.setProjectionMatrix(projectionMatrix);
 					chromaKeyVideoRenderer.setTransform(trackable.getPoseMatrix());
 					chromaKeyVideoRenderer.setTranslate(0.0f, 0.0f, 0.0f);
-					chromaKeyVideoRenderer.setScale(0.26f, -0.18f, 1.0f);
+					chromaKeyVideoRenderer.setScale(trackable.getWidth(), trackable.getHeight(), 1.0f);
 					chromaKeyVideoRenderer.draw();
 					break;
 
 				case "Glacier":
 					texturedCubeRenderer.setProjectionMatrix(projectionMatrix);
 					texturedCubeRenderer.setTransform(trackable.getPoseMatrix());
-					texturedCubeRenderer.setTranslate(0, 0, -0.025f);
-					texturedCubeRenderer.setScale(0.15f, 0.15f, 0.05f);
+					texturedCubeRenderer.setTranslate(0, 0, -trackable.getHeight()*0.25f*0.25f);
+					texturedCubeRenderer.setScale(trackable.getWidth()*0.25f, trackable.getHeight()*0.25f, trackable.getHeight()*0.25f*0.5f);
 					texturedCubeRenderer.draw();
 					break;
 
 				default:
 					coloredCubeRenderer.setProjectionMatrix(projectionMatrix);
 					coloredCubeRenderer.setTransform(trackable.getPoseMatrix());
-					texturedCubeRenderer.setTranslate(0, 0, -0.025f);
-					coloredCubeRenderer.setScale(0.15f, 0.15f, 0.005f);
+					coloredCubeRenderer.setTranslate(0, 0, -trackable.getHeight()*0.25f*0.25f);
+					coloredCubeRenderer.setScale(trackable.getWidth()*0.25f, trackable.getHeight()*0.25f, trackable.getHeight()*0.25f*0.5f);
 					coloredCubeRenderer.draw();
 			}
 		}

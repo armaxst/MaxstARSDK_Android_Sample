@@ -25,25 +25,26 @@ public class Yuv420_888Renderer extends BackgroundRenderer {
 					"   v_texCoord = a_vertexTexCoord;          \n" +
 					"}\n";
 
-	private static final String FRAGMENT_SHADER_SRC =
-			"precision mediump float;\n"		+
-			"uniform sampler2D u_texture_1;\n"							+
-			"uniform sampler2D u_texture_2;\n"							+
-			"uniform sampler2D u_texture_3;\n"							+
-			"varying vec2 v_texCoord;\n"								+
-			"void main()\n"												+
-			"{\n"														+
-			"	float y = texture2D(u_texture_1, v_texCoord).r;\n"		+
-			"	float u = texture2D(u_texture_2, v_texCoord).a;\n"		+
-			"	float v = texture2D(u_texture_3, v_texCoord).a;\n"		+
-			"	y = 1.1643 * (y - 0.0625);\n"							+
-			"	u = u - 0.5;\n"											+
-			"	v = v - 0.5;\n"											+
-			"	float r = y + 1.5958 * v;\n"							+
-			"	float g = y - 0.39173 * u - 0.81290 * v;\n"				+
-			"	float b = y + 2.017 * u;\n"								+
-			"	gl_FragColor = vec4(r, g, b, 1.0);\n"						+
-			"}\n";
+//
+private static final String FRAGMENT_SHADER_SRC =
+		"precision mediump float;\n" +
+		"uniform sampler2D u_texture_1;\n" +
+		"uniform sampler2D u_texture_2;\n" +
+		"uniform sampler2D u_texture_3;\n"							+
+		"varying vec2 v_texCoord;\n" +
+		"void main()\n" +
+		"{\n" +
+		"    float y = texture2D(u_texture_1, v_texCoord).r;\n" +
+		"    float v = texture2D(u_texture_2, v_texCoord).a;\n" +
+		"    float u = texture2D(u_texture_3, v_texCoord).a;\n" +
+		"    y = 1.1643 * (y - 0.0625);\n" +
+		"    u = u - 0.5;\n" +
+		"    v = v - 0.5;\n" +
+		"    float r = y + 1.5958 * v;\n" +
+		"    float g = y - 0.39173 * u - 0.81290 * v;\n" +
+		"    float b = y + 2.017 * u;\n" +
+		"    gl_FragColor = vec4(r, g, b, 1.0);\n" +
+		"}\n";
 
 
 	private static final float[] VERTEX_BUF = {
@@ -65,7 +66,8 @@ public class Yuv420_888Renderer extends BackgroundRenderer {
 	};
 
 	private ByteBuffer yBuffer;
-	private ByteBuffer uvBuffer;
+	private ByteBuffer uBuffer;
+	private ByteBuffer vBuffer;
 
 	Yuv420_888Renderer() {
 		super();
@@ -109,7 +111,8 @@ public class Yuv420_888Renderer extends BackgroundRenderer {
 	}
 
 	private int yDataLength = 0;
-	private int uvDataLength = 0;
+	private int uDataLength = 0;
+	private int vDataLength = 0;
 
 	public void draw(TrackedImage image) {
 
@@ -118,24 +121,30 @@ public class Yuv420_888Renderer extends BackgroundRenderer {
 		}
 
 		int yDataLength = image.getWidth() * image.getHeight();
-		int uvDataLength = image.getWidth() * image.getHeight();
+		int uDataLength = image.getWidth() * image.getHeight() / 2 - 1;
+		int vDataLength = image.getWidth() * image.getHeight() / 2 - 1;
 
-		if (this.yDataLength != yDataLength || this.uvDataLength != uvDataLength) {
+		if (this.yDataLength != yDataLength || this.uDataLength != uDataLength || this.vDataLength != vDataLength) {
 			this.yDataLength = yDataLength;
-			this.uvDataLength = uvDataLength;
+			this.uDataLength = uDataLength;
+			this.vDataLength = vDataLength;
 
 			yBuffer = ByteBuffer.allocateDirect(yDataLength);
-			uvBuffer = ByteBuffer.allocateDirect(uvDataLength);
+			uBuffer = ByteBuffer.allocateDirect(uDataLength);
+			vBuffer = ByteBuffer.allocateDirect(vDataLength);
 			yBuffer.order(ByteOrder.nativeOrder());
-			uvBuffer.order(ByteOrder.nativeOrder());
+			uBuffer.order(ByteOrder.nativeOrder());
+			vBuffer.order(ByteOrder.nativeOrder());
 		}
 
 		yBuffer.put(image.getData(), 0, yDataLength);
 		yBuffer.position(0);
 
-		uvBuffer.position(0);
-		uvBuffer.put(image.getData(), yDataLength, uvDataLength);
-		uvBuffer.position(0);
+		uBuffer.put(image.getData(), yDataLength, uDataLength);
+		uBuffer.position(0);
+
+		vBuffer.put(image.getData(), yDataLength + uDataLength, vDataLength);
+		vBuffer.position(0);
 
 		GLES20.glUseProgram(shaderProgramId);
 
@@ -147,9 +156,7 @@ public class Yuv420_888Renderer extends BackgroundRenderer {
 				0, textureCoordBuff);
 		GLES20.glEnableVertexAttribArray(textureCoordHandle);
 
-		Matrix.setIdentityM(modelMatrix, 0);
-
-		Matrix.multiplyMM(localMvpMatrix, 0, projectionMatrix, 0, modelMatrix, 0);
+		Matrix.multiplyMM(localMvpMatrix, 0, projectionMatrix, 0, transform, 0);
 		GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, localMvpMatrix, 0);
 
 		GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
@@ -161,17 +168,14 @@ public class Yuv420_888Renderer extends BackgroundRenderer {
 		GLES20.glActiveTexture(GLES20.GL_TEXTURE1);
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureNames[1]);
 		GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_LUMINANCE_ALPHA, image.getWidth() / 2, image.getHeight() / 2, 0,
-				GLES20.GL_LUMINANCE_ALPHA, GLES20.GL_UNSIGNED_BYTE, uvBuffer);
+				GLES20.GL_LUMINANCE_ALPHA, GLES20.GL_UNSIGNED_BYTE, uBuffer);
 		GLES20.glUniform1i(textureHandles[1], 1);
 
-		uvBuffer.position(uvDataLength / 2);
-
 		GLES20.glActiveTexture(GLES20.GL_TEXTURE2);
-		GLES20.glUniform1i(textureHandles[2], 2);
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureNames[2]);
-
 		GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_LUMINANCE_ALPHA, image.getWidth() / 2, image.getHeight() / 2, 0,
-				GLES20.GL_LUMINANCE_ALPHA, GLES20.GL_UNSIGNED_BYTE, uvBuffer);
+				GLES20.GL_LUMINANCE_ALPHA, GLES20.GL_UNSIGNED_BYTE, vBuffer);
+		GLES20.glUniform1i(textureHandles[2], 2);
 
 		GLES20.glDrawElements(GLES20.GL_TRIANGLES, INDEX_BUF.length,
 				GLES20.GL_UNSIGNED_SHORT, indexBuffer);

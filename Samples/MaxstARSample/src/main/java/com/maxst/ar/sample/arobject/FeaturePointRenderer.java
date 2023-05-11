@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.renderscript.Float3;
+import android.util.Log;
 
 import com.maxst.ar.GuideInfo;
 import com.maxst.ar.TrackingResult;
@@ -14,6 +15,8 @@ import com.maxst.ar.sample.util.ShaderUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
+import static android.content.ContentValues.TAG;
 
 public class FeaturePointRenderer extends BaseRenderer {
 
@@ -138,7 +141,6 @@ public class FeaturePointRenderer extends BaseRenderer {
 		if (featureCount == 0) {
 			return;
 		}
-
 		float[] featureBuffer = guide.getGuideFeatureBuffer();
 
 		float[] vertexPtr = featureVertexBuf;

@@ -4,10 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.opengl.GLSurfaceView
-        android:id="@+id/gl_surface_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+	<android.opengl.GLSurfaceView
+		android:id="@+id/gl_surface_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_alignParentStart="true"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_marginStart="0dp"
+		android:layout_marginLeft="0dp"
+		android:layout_marginTop="0dp"/>
 
     <EditText
         android:id="@+id/map_file_name_edit"
@@ -23,9 +29,9 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/map_file_name_edit"
         android:focusable="true"
         android:nextFocusLeft="@id/map_file_name_edit"
-        android:layout_below="@id/map_file_name_edit"
         android:text="@string/start_slam"/>
 
     <Button
@@ -59,4 +65,117 @@
         android:text="# keyframe : 0, Init Progress : 0"
         android:textColor="@android:color/white"
         android:textStyle="bold"/>
+
+	<!--
+		<SeekBar
+			android:id="@+id/seek_x_pos"
+			android:layout_width="200dp"
+			android:layout_height="15dp"
+			android:layout_above="@+id/slam_init_progress"
+			android:layout_alignLeft="@+id/seek_z_scale"
+			android:layout_alignStart="@+id/seek_z_scale"
+			android:layout_marginBottom="64dp"
+			android:max="100"
+			android:progress="50"/>
+
+		<SeekBar
+			android:id="@+id/seek_y_pos"
+			android:layout_width="200dp"
+			android:layout_height="15dp"
+			android:layout_above="@+id/textView9"
+			android:layout_alignLeft="@+id/seek_x_pos"
+			android:layout_alignStart="@+id/seek_x_pos"
+			android:layout_marginBottom="11dp"
+			android:max="100"
+			android:progress="50"/>
+
+		<SeekBar
+			android:id="@+id/seek_z_pos"
+			android:layout_width="200dp"
+			android:layout_height="15dp"
+			android:layout_above="@+id/slam_init_progress"
+			android:layout_alignLeft="@+id/seek_y_pos"
+			android:layout_alignStart="@+id/seek_y_pos"
+			android:layout_marginTop="21dp"
+			android:max="100"
+			android:progress="50"/>
+-->
+
+	<!--
+<TextView
+	android:id="@+id/textView5"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_above="@+id/textView10"
+	android:layout_alignEnd="@+id/textView"
+	android:layout_alignRight="@+id/textView"
+	android:layout_marginBottom="14dp"
+	android:text="Position"/>
+
+<TextView
+	android:id="@+id/textView8"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_alignBottom="@+id/seek_y_pos"
+	android:layout_alignParentLeft="true"
+	android:layout_alignParentStart="true"
+	android:text="y"/>
+
+<TextView
+	android:id="@+id/textView9"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_alignBottom="@+id/seek_z_pos"
+	android:layout_alignEnd="@+id/textView8"
+	android:layout_alignParentLeft="true"
+	android:layout_alignParentStart="true"
+	android:layout_alignRight="@+id/textView8"
+	android:text="z"/>
+
+<TextView
+	android:id="@+id/textView10"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_alignBottom="@+id/seek_x_pos"
+	android:layout_alignParentLeft="true"
+	android:layout_alignParentStart="true"
+	android:text="x"/>
+-->
+    <Button
+        android:id="@+id/save_frames"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/save_map"
+        android:text="Save Frames"/>
+
+	<ToggleButton
+		android:id="@+id/btnPositionScale"
+		android:layout_width="100dp"
+		android:layout_height="wrap_content"
+		android:layout_alignParentStart="true"
+		android:layout_alignParentLeft="true"
+		android:layout_centerVertical="true"
+		android:layout_marginStart="284dp"
+		android:layout_marginLeft="284dp"
+		android:layout_marginEnd="-200dp"
+		android:layout_marginRight="-200dp"
+		android:layout_toStartOf="@+id/map_file_name_edit"
+		android:layout_toLeftOf="@+id/map_file_name_edit"
+		android:text="ToggleButton"
+		android:textOff="Scale"
+		android:textOn="Position"/>
+
+	<!--
+		<Button
+			android:id="@+id/load_map"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentEnd="true"
+			android:layout_alignParentRight="true"
+			android:layout_below="@+id/save_map"
+			android:text="Load Map"/>
+	-->
+
 </RelativeLayout>

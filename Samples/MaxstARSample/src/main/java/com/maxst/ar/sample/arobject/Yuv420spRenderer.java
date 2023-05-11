@@ -146,9 +146,7 @@ public class Yuv420spRenderer extends BackgroundRenderer {
 				0, textureCoordBuff);
 		GLES20.glEnableVertexAttribArray(textureCoordHandle);
 
-		Matrix.setIdentityM(modelMatrix, 0);
-
-		Matrix.multiplyMM(localMvpMatrix, 0, projectionMatrix, 0, modelMatrix, 0);
+		Matrix.multiplyMM(localMvpMatrix, 0, projectionMatrix, 0, transform, 0);
 		GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false, localMvpMatrix, 0);
 
 		GLES20.glActiveTexture(GLES20.GL_TEXTURE0);

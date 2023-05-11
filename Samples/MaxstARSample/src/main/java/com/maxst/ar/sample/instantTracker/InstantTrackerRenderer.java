@@ -25,7 +25,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 
-public class InstantTrackerRenderer implements Renderer {
+class InstantTrackerRenderer implements Renderer {
 
 	public static final String TAG = InstantTrackerRenderer.class.getSimpleName();
 
@@ -39,7 +39,7 @@ public class InstantTrackerRenderer implements Renderer {
 
 	private BackgroundRenderHelper backgroundRenderHelper;
 
-	public InstantTrackerRenderer(Activity activity) {
+	InstantTrackerRenderer(Activity activity) {
 		this.activity = activity;
 	}
 
@@ -52,14 +52,14 @@ public class InstantTrackerRenderer implements Renderer {
 		TrackingResult trackingResult = state.getTrackingResult();
 
 		TrackedImage image = state.getImage();
-		float[] backgroundPlaneProjectionMatrix = CameraDevice.getInstance().getBackgroundPlaneProjectionMatrix();
-		backgroundRenderHelper.drawBackground(image, backgroundPlaneProjectionMatrix);
+		float[] projectionMatrix = CameraDevice.getInstance().getProjectionMatrix();
+		float[] backgroundPlaneInfo = CameraDevice.getInstance().getBackgroundPlaneInfo();
+
+		backgroundRenderHelper.drawBackground(image, projectionMatrix, backgroundPlaneInfo);
 
 		if (trackingResult.getCount() == 0) {
 			return;
 		}
-
-		float [] projectionMatrix = CameraDevice.getInstance().getProjectionMatrix();
 
 		Trackable trackable = trackingResult.getTrackable(0);
 
@@ -91,14 +91,15 @@ public class InstantTrackerRenderer implements Renderer {
 		texturedCubeRenderer.setTextureBitmap(bitmap);
 
 		backgroundRenderHelper = new BackgroundRenderHelper();
+		CameraDevice.getInstance().setClippingPlane(0.03f, 70.0f);
 	}
 
-	public void setTranslate(float x, float y) {
+	void setTranslate(float x, float y) {
 		posX += x;
 		posY += y;
 	}
 
-	public void resetPosition() {
+	void resetPosition() {
 		posX = 0;
 		posY = 0;
 	}
